@@ -11,14 +11,14 @@ export const apiSlice = createApi({
       const token = localStorage.getItem("token");
       //   console.log("9 baseApi", token);
       if (token) {
-        headers.set("Authorization", `Bearer ${token}`);
+        headers.set("Authorization", `Bearer ${JSON.parse(token)}`);
       }
 
 
       return headers;
     }
   }),
-  tagTypes: ["Promotion", "Product", "Users", "Coupon", "About", "Category", "Privacy", "Terms", "ProviderStatus", "AdminProfile", "MarketingFees", "Transaction", "Notification", "AdsBanner" , "Profile"],
+  tagTypes: ["Promotion", "Product", "Users", "Coupon", "About", "Category", "Privacy", "Terms", "ProviderStatus", "AdminProfile", "MarketingFees", "Transaction", "Notification", "AdsBanner", "Profile"],
 
   endpoints: () => ({})
 });

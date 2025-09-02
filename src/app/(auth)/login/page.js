@@ -26,6 +26,7 @@ const Page = () => {
     try {
       const res = await login({ email, password });
       localStorage.setItem('user', JSON.stringify(res?.data?.data?.attributes?.user));
+      localStorage.setItem('token', JSON.stringify(res?.data?.data?.attributes?.tokens?.access?.token));
 
       if (res?.data?.code == 200) {
         toast.success('Login successful', {

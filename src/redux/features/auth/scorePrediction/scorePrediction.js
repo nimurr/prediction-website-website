@@ -9,7 +9,14 @@ const scorePrediction = apiSlice.injectEndpoints({
                 body: data,
             }),
         }),
+        submitPrediction: builder.mutation({
+            query: (data) => ({
+                url: `/score-prediction/submit-prediction`,
+                method: "POST",
+                body: data,
+            }),
+        }),
     }),
 });
 
-export const { useGetAllScorePredictionQuery } = scorePrediction;
+export const { useGetAllScorePredictionQuery , useSubmitPredictionMutation } = scorePrediction;

@@ -5,13 +5,14 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { HiMenu, HiX } from 'react-icons/hi';
 import url from '@/redux/api/baseUrl';
+import { useGetProfileQuery } from '@/redux/features/auth/profile/getProfile';
 
 const Header = () => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const pathname = usePathname(); // Get current route
 
-    const userData = JSON.parse(localStorage.getItem('user'));
-    console.log(userData);
+    const { data } = useGetProfileQuery();
+    const userData = data?.data?.attributes?.user;
 
     const navLinks = [
         { label: 'Home', href: '/' },
@@ -53,7 +54,7 @@ const Header = () => {
                     {
                         userData &&
                         <Link href="/profile/info">
-                            <img className='w-10 h-10 rounded-full cursor-pointer' src={'https://cdn-icons-png.flaticon.com/512/149/149071.png'} alt="" />
+                            <img className='w-10 h-10 rounded-full cursor-pointer' src={userData?.profileImage ? url + userData?.profileImage : "https://cdn-icons-png.flaticon.com/512/149/149071.png"} alt="" />
                         </Link>
                     }
 
@@ -107,7 +108,7 @@ const Header = () => {
                     {
                         userData &&
                         <Link href="/profile/info">
-                            <img className='w-10 h-10 rounded-full cursor-pointer' src={'https://cdn-icons-png.flaticon.com/512/149/149071.png'} alt="" />
+                            <img className='w-10 h-10 rounded-full cursor-pointer' src={userData?.profileImage ? url + userData?.profileImage : "https://cdn-icons-png.flaticon.com/512/149/149071.png"} alt="" />
                         </Link>
                     }
                     {

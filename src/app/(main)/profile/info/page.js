@@ -1,8 +1,16 @@
 'use client';
 import React from 'react';
 import Link from 'next/link';
+import { useGetProfileQuery } from '@/redux/features/auth/profile/getProfile';
+import url from '@/redux/api/baseUrl';
 
 const Page = () => {
+
+    const { data } = useGetProfileQuery();
+    const profile = data?.data?.attributes?.user;
+    console.log(profile);
+
+
     return (
         <div className="contiainer lg:py-20 py-10 px-5 lg:px-0">
 
@@ -17,7 +25,7 @@ const Page = () => {
             <div className="bg-gray-100 rounded-lg  px-6 lg:py-20 py-10">
                 <div className="flex-shrink-0 mx-auto mb-10 md:mx-0">
                     <img
-                        src="https://cdn-icons-png.flaticon.com/512/219/219988.png" // replace with actual path or use avatar from backend
+                        src={profile?.profileImage ? url + profile?.profileImage : "https://cdn-icons-png.flaticon.com/512/149/149071.png"} // replace with actual path or use avatar from backend
                         alt="User Avatar"
                         className="w-32 h-32 rounded-full border border-gray-300 object-cover"
                     />
@@ -30,19 +38,19 @@ const Page = () => {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-5 lg:gap-y-10 w-full">
                         <div>
                             <h4 className="text-xl font-semibold text-gray-700">Name</h4>
-                            <p className="text-gray-900">Wade Warren</p>
+                            <p className="text-gray-900">{profile?.fullName}</p>
                         </div>
                         <div>
                             <h4 className="text-xl font-semibold text-gray-700">Email</h4>
-                            <p className="text-gray-900">WadeWarren@email.com</p>
+                            <p className="text-gray-900">{profile?.email}</p>
                         </div>
                         <div>
                             <h4 className="text-xl font-semibold text-gray-700">Bitcointalk Username</h4>
-                            <p className="text-gray-900">CryptoSage01</p>
+                            <p className="text-gray-900">{profile?.bitcointalkUsername || 'N/A'}</p>
                         </div>
                         <div>
                             <h4 className="text-xl font-semibold text-gray-700">Bitcoin Address</h4>
-                            <p className="text-gray-900 break-words">1BoatSLRHtKNngkdXEeobR76b53LETtpyT</p>
+                            <p className="text-gray-900 break-words">{profile?.bitcoinAddress || 'N/A'}</p>
                         </div>
                     </div>
                 </div>

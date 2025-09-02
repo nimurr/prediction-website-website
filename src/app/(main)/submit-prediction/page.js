@@ -1,48 +1,129 @@
 'use client';
 
+import { useGetProfileQuery } from '@/redux/features/auth/profile/getProfile';
+import { useGetAllScorePredictionQuery, useSubmitPredictionMutation } from '@/redux/features/auth/scorePrediction/scorePrediction';
 import React, { useState } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
 
 const Page = () => {
+    const { data: userData } = useGetProfileQuery();
+    const profile = userData?.data?.attributes?.user;
+
+    const { data, isLoading } = useGetAllScorePredictionQuery();
+    const [submitPrediction, { isLoading: submitting }] = useSubmitPredictionMutation();
+    const predictionData = data?.data;
+
+    // Form state
     const [formData, setFormData] = useState({
-        event: '',
+        userId: profile?.id,
+        predictionId: '',
         bitcointalkUsername: '',
         bitcoinAddress: '',
         casinoUsername: '',
         email: '',
         predictionSide: '',
-        predictionDetails: ''
     });
 
+    const [selectSite, setSelectSite] = useState([]);
+    console.log(selectSite);
+
+    // Keep track of the selected contest to render dynamic teams
+    const [selectedEvent, setSelectedEvent] = useState(null);
+
+    // Handle input changes
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData(prev => ({ ...prev, [name]: value }));
+        setFormData((prev) => ({
+            ...prev,
+            [name]: value,
+        }));
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        console.log('Form submitted:', formData);
-        // You can integrate API call here
+    // Handle contest selection
+    const handleEventChange = (e) => {
+        const eventId = e.target.value;
+        const event = predictionData.find((ev) => ev._id === eventId);
+        setSelectedEvent(event);
+        setFormData((prev) => ({
+            ...prev,
+            predictionId: eventId,
+            predictionSide: '', // reset side when contest changes
+        }));
     };
+
+    // Handle form submit
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const payload = {
+                ...formData,
+                selectTeam: formData.predictionSide, // ✅ API expects "selectTeam"
+            };
+
+            const result = await submitPrediction(payload).unwrap();
+            console.log(result);
+            if (result?.code === 200) {
+                toast.success('Prediction submitted successfully!', {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "colored",
+                })
+                e.target.reset();
+                formData.predictionSide = '';
+                formData.predictionId = '';
+                formData.bitcointalkUsername = '';
+                formData.bitcoinAddress = '';
+                formData.casinoUsername = '';
+                formData.email = '';
+            }
+        } catch (error) {
+            toast.error(error?.data?.message, {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+            })
+        }
+    };
+
+    if (isLoading) return <p className="text-center py-10">Loading contests...</p>;
 
     return (
-        <div className="contiainer ">
-            <h2 className="text-sm text-gray-600 my-10 font-semibold"><span className='text-blue-600'>Home</span> &gt; Submit Prediction</h2>
+        <div className="contiainer lg:py-20 py-10 px-5 lg:px-0">
+            <ToastContainer />
+            <h2 className="text-sm text-gray-600 my-10 font-semibold">
+                <span className="text-blue-600">Home</span> &gt; Submit Prediction
+            </h2>
 
             <form onSubmit={handleSubmit} className="space-y-4 p-5 bg-gray-50 rounded-2xl my-10">
                 <h1 className="text-2xl font-bold mb-4">Submit Your Prediction</h1>
-                <hr className=' border-0 h-0.5 bg-gray-400' />
+                <hr className="border-0 h-0.5 bg-gray-400" />
+
                 {/* Event Selection */}
                 <div>
                     <label className="block mb-1 font-medium">Select Contest:</label>
                     <select
-                        name="event"
-                        value={formData.event}
-                        onChange={handleChange}
-                        className="w-full border p-3 rounded border-gray-200 focus:border-[#4c1d95] ring-[#4c1d95] outline-[#4c1d95]"
+                        name="predictionId"
+                        value={formData.predictionId}
+                        onChange={handleEventChange}
+                        className="w-full border p-3 rounded border-gray-200 focus:border-[#4c1d95] outline-none"
                         required
                     >
                         <option value="">--Choose An Event--</option>
-                        <option value="Real Madrid vs Barcelona">Real Madrid vs Barcelona</option>
+                        {predictionData?.map((event) => (
+                            <option onChange={() => setSelectSite(event)} key={event._id} value={event._id}>
+                                {event.firstTeamName} vs {event.secondTeamName}
+                            </option>
+                        ))}
                     </select>
                 </div>
 
@@ -52,10 +133,10 @@ const Page = () => {
                     <input
                         type="text"
                         name="bitcointalkUsername"
-                        placeholder="Enter your Bitcointalk Username"
                         value={formData.bitcointalkUsername}
                         onChange={handleChange}
-                        className="w-full border p-3 rounded border-gray-200 focus:border-[#4c1d95] ring-[#4c1d95] outline-[#4c1d95]"
+                        placeholder="Enter your Bitcointalk Username"
+                        className="w-full border p-3 rounded border-gray-200 focus:border-[#4c1d95] outline-none"
                         required
                     />
                 </div>
@@ -66,25 +147,25 @@ const Page = () => {
                     <input
                         type="text"
                         name="bitcoinAddress"
-                        placeholder="Enter your Bitcoin address"
                         value={formData.bitcoinAddress}
                         onChange={handleChange}
-                        className="w-full border p-3 rounded border-gray-200 focus:border-[#4c1d95] ring-[#4c1d95] outline-[#4c1d95]"
+                        placeholder="Enter your Bitcoin address"
+                        className="w-full border p-3 rounded border-gray-200 focus:border-[#4c1d95] outline-none"
                         required
                     />
                 </div>
-                <div className='grid lg:grid-cols-2 grid-cols-1 gap-5'>
 
+                <div className="grid lg:grid-cols-2 grid-cols-1 gap-5">
                     {/* Casino Username */}
                     <div>
                         <label className="block mb-1 font-medium">Casino Username:</label>
                         <input
                             type="text"
                             name="casinoUsername"
-                            placeholder="Enter your Casino Username"
                             value={formData.casinoUsername}
                             onChange={handleChange}
-                            className="w-full border p-3 rounded border-gray-200 focus:border-[#4c1d95] ring-[#4c1d95] outline-[#4c1d95]"
+                            placeholder="Enter your Casino Username"
+                            className="w-full border p-3 rounded border-gray-200 focus:border-[#4c1d95] outline-none"
                             required
                         />
                     </div>
@@ -95,61 +176,53 @@ const Page = () => {
                         <input
                             type="email"
                             name="email"
-                            placeholder="Enter your Email Address"
                             value={formData.email}
                             onChange={handleChange}
-                            className="w-full border p-3 rounded border-gray-200 focus:border-[#4c1d95] ring-[#4c1d95] outline-[#4c1d95]"
+                            placeholder="Enter your Email Address"
+                            className="w-full border p-3 rounded border-gray-200 focus:border-[#4c1d95] outline-none"
                         />
                     </div>
-
                 </div>
-                {/* Prediction Side */}
-                <div>
-                    <label className="block mb-1 font-medium">Choose your Prediction side:</label>
-                    <div className="grid grid-cols-2 gap-5">
-                        <label className="flex bg-white p-3 rounded-lg items-center gap-2">
-                            <input
-                                type="radio"
-                                name="predictionSide"
-                                value="Real Madrid"
-                                onChange={handleChange}
-                                checked={formData.predictionSide === 'Real Madrid'}
-                                required
-                            />
-                            Real Madrid
-                        </label>
-                        <label className="flex bg-white p-3 rounded-lg items-center gap-2">
-                            <input
-                                type="radio"
-                                name="predictionSide"
-                                value="Barcelona"
-                                onChange={handleChange}
-                                checked={formData.predictionSide === 'Barcelona'}
-                            />
-                            Barcelona
-                        </label>
+
+                {/* Prediction Side (Dynamic from selected contest) */}
+                {selectedEvent && (
+                    <div>
+                        <label className="block mb-1 font-medium">Choose your Prediction side:</label>
+                        <div className="grid grid-cols-2 gap-5">
+                            <label className="flex cursor-pointer hover:bg-blue-100 bg-white p-3 rounded-lg items-center gap-2">
+                                <input
+                                    type="radio"
+                                    name="predictionSide"
+                                    value={selectedEvent.firstTeamName}
+                                    checked={formData.predictionSide === selectedEvent.firstTeamName}
+                                    onChange={handleChange}
+                                    required
+                                />
+                                {selectedEvent.firstTeamName}
+                            </label>
+                            <label className="flex cursor-pointer hover:bg-blue-100 bg-white p-3 rounded-lg items-center gap-2">
+                                <input
+                                    type="radio"
+                                    name="predictionSide"
+                                    value={selectedEvent.secondTeamName}
+                                    checked={formData.predictionSide === selectedEvent.secondTeamName}
+                                    onChange={handleChange}
+                                />
+                                {selectedEvent.secondTeamName}
+                            </label>
+                        </div>
                     </div>
-                </div>
-
-                {/* Prediction Details */}
-                {/* <div>
-                    <label className="block mb-1 font-medium">Your Prediction:</label>
-                    <textarea
-                        name="predictionDetails"
-                        placeholder="Enter your Prediction Details"
-                        value={formData.predictionDetails}
-                        onChange={handleChange}
-                        className="w-full border p-3 rounded border-gray-200 focus:border-[#4c1d95] ring-[#4c1d95] outline-[#4c1d95]"
-                        rows={4}
-                        required
-                    />
-                </div> */}
+                )}
 
                 <button
                     type="submit"
-                    className="bg-gradient-to-tl from-[#4c1d95] to-[#a878f1] text-white px-6 py-3 rounded-full hover:bg-[#4d1d95dc] cursor-pointer"
+                    disabled={submitting}
+                    className={`px-6 py-3 rounded-full font-semibold text-white transition duration-200 ${submitting
+                        ? 'bg-gray-400 cursor-not-allowed'
+                        : 'bg-gradient-to-tl from-[#4c1d95] to-[#a878f1] cursor-pointer'
+                        }`}
                 >
-                    Submit Prediction
+                    {submitting ? 'Submitting...' : 'Submit Prediction'}
                 </button>
             </form>
         </div>
