@@ -1,0 +1,162 @@
+'use client';
+import Link from 'next/link';
+import React, { useState } from 'react';
+import { IoMdShareAlt } from "react-icons/io";
+import { Modal } from 'antd';
+import moment from 'moment';
+import url from '@/redux/api/baseUrl';
+import { useGetAllPokerPredictionQuery } from '@/redux/features/auth/pokerPrediction/pokerPrediction';
+const Poker = () => {
+    const { data } = useGetAllPokerPredictionQuery();
+
+
+
+    const tournaments = data?.data;
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selected, setSelected] = useState(null);
+    console.log(selected);
+
+    const handleOpenModal = (item) => {
+        setSelected(item);
+        setIsModalOpen(true);
+    };
+
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+        setSelected(null);
+    };
+
+    return (
+        <div className='contiainer mx-auto py-10 px-4'>
+            <div>
+                <div className='flex items-center gap-3 mb-5'>
+                    <img src="/Images/Common/icons-title.png" alt="" />
+                    <h3 className='text-xl font-semibold text-[#4c1d95]'>Predictions</h3>
+                </div>
+                <h2 className='md:text-5xl text-3xl font-semibold'>Featured Contests</h2>
+            </div>
+
+            <div className='my-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 bg-white'>
+                {tournaments?.map((item, index) => (
+                    <div key={index} className='bg-[url("/Images/Home/preduction-1.png")] w-full bg-cover bg-no-repeat bg-center p-5 rounded-2xl border border-[#4c1d95] duration-500 hover:shadow-2xl shadow-purple-500/50'>
+                        <div className='flex items-center justify-between gap-5'>
+                            <img src={url + item?.uploadPokerTournamentImage} alt={item?.tournamentTitle} className="w-16 h-16 object-contain" />
+                            <div className='flex items-center gap-2'>
+                                <img src="/Images/Home/loading.png" alt="" />
+                                <p className='text-sm font-semibold text-[#4c1d95]'>
+                                    {moment(item?.tournamentDate).format('DD MMM, YYYY')}
+                                </p>
+                            </div>
+                        </div>
+
+                        <div className='my-5'>
+                            <h2 className='text-3xl font-semibold capitalize'>{item?.tournamentTitle}</h2>
+                            <p className='font-semibold my-2'>Buy In : <span className='font-medium text-gray-500'>${item?.buyIn}</span></p>
+                            <p className='font-semibold my-2'>Time : <span className='font-medium text-gray-500'>{item?.time}</span></p>
+                            <p className='font-semibold my-2'>Rewards : <span className='font-medium text-gray-500'>{item?.rewards}</span></p>
+                        </div>
+
+                        <div className='flex items-center justify-between gap-2'>
+                            <button className='bg-[#4c1d95] text-white py-3 px-3 rounded-full text-sm'>Join 1Win</button>
+                            <Link href={'/join-poker-tornament-form'} className='bg-gradient-to-tl from-[#4c1d95] to-[#a878f1] transition-colors text-white py-3 px-3 rounded-full flex items-center justify-center text-sm gap-2'>
+                                Join Tournament
+                                <IoMdShareAlt className='text-2xl' />
+                            </Link>
+                            <button
+                                onClick={() => handleOpenModal(item)}
+                                className='border-[#4c1d95] border-2 bg-purple-200 text-[#4c1d95] py-3 px-3 rounded-full cursor-pointer text-sm'
+                            >
+                                Details
+                            </button>
+                        </div>
+                    </div>
+                ))}
+            </div>
+
+            {/* Ant Design Modal */}
+            <Modal
+                open={isModalOpen}
+                onCancel={handleCloseModal}
+                footer={null}
+                width={700}
+                centered
+            >
+                {selected !== null && (
+                    <div className='bg-[url("/Images/Home/preduction-1.png")] w-full bg-cover bg-no-repeat bg-center p-5 rounded-2xl border border-[#4c1d95]'>
+                        <div className='flex items-center justify-between gap-5'>
+                            <img
+                                src={url + selected?.uploadPokerTournamentImage}
+                                alt={selected?.pokerTournamentTitle}
+                                className="w-16 h-16 object-contain"
+                            />
+                            <div className='flex items-center gap-2'>
+                                <img src="/Images/Home/loading.png" alt="" />
+                                <p className='text-sm font-semibold text-[#4c1d95]'>
+                                    {moment(selected?.time).format('DD MMM, YYYY')}
+                                </p>
+                            </div>
+                            <div className='flex items-center gap-3'>
+                                <p className='text-sm font-semibold bg-[#4d1d9536] py-1 px-3 rounded-full text-[#4c1d95]'>
+                                    {selected?.type}
+                                </p>
+                            </div>
+                        </div>
+
+                        <div className='my-5'>
+                            <h2 className='text-3xl font-semibold capitalize'>
+                                {selected?.pokerTournamentTitle}
+                            </h2>
+                            <p className='font-semibold my-2'>
+                                Buy In: <span className='font-medium text-gray-500'>${selected?.buyIn}</span>
+                            </p>
+                            <p className='font-semibold my-2'>
+                                Time: <span className='font-medium text-gray-500'>
+                                    {moment(selected?.time).format('dddd, h:mm A')}
+                                </span>
+                            </p>
+                            <p className='font-semibold my-2'>
+                                Rewards: <span className='font-medium text-gray-500'>${selected?.rewards}</span>
+                            </p>
+                            <p className='font-semibold my-2'>
+                                Max Players: <span className='font-medium text-gray-500'>{selected?.maxPlayers}</span>
+                            </p>
+                            <p className='font-semibold my-2'>
+                                Sponsor: <span className='font-medium text-gray-500'>{selected?.sponsor}</span>
+                            </p>
+                        </div>
+
+                        <div>
+                            <p>
+                                Join the <span className="font-semibold text-[#4c1d95]">{selected?.pokerTournamentTitle}</span>!
+                                Buy-in is <span className="font-semibold">${selected?.buyIn}</span> for a chance to win <span className="font-semibold">${selected?.rewards}</span>.
+                            </p>
+                            <br />
+                            <p>
+                                Tournament starts on{" "}
+                                <span className="font-semibold">
+                                    {moment(selected?.time).format('MMMM Do YYYY, h:mm A')}
+                                </span>. Secure your seat early and join the action!
+                            </p>
+                        </div>
+
+                        <div className='flex items-center mt-5 justify-between gap-5 flex-wrap'>
+                            <Link href={selected?.joinLink} className='!bg-[#4c1d95] cursor-pointer !text-white py-3 px-5 rounded-full'>
+                                {selected?.sponsor || "Join 1Win"}
+                            </Link>
+                            <Link
+                                href={'/join-poker-tornament-form'}
+                                className='bg-gradient-to-tl from-[#4c1d95] to-[#a878f1] cursor-pointer transition-colors !text-white py-3 px-6 rounded-full flex items-center gap-2'
+                            >
+                                Join Tournament
+                                <IoMdShareAlt className='text-2xl' />
+                            </Link>
+                        </div>
+                    </div>
+                )}
+            </Modal>
+        </div>
+    );
+};
+
+export default Poker;
