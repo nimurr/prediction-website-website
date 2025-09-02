@@ -1,6 +1,7 @@
 'use client';
 import React from 'react';
 import { useMyAllPredictionQuery } from '@/redux/features/auth/profile/getProfile';
+import url from '@/redux/api/baseUrl';
 
 const MyPredictions = () => {
     // Get user id from localStorage
@@ -24,21 +25,21 @@ const MyPredictions = () => {
             side: p.predictionSide,
             date: new Date(p.createdAt).toLocaleDateString(),
             status: p.isWinner ? 'Winner' : p.status === 'submitted' ? 'Pending' : 'Lossed',
-            icon: '/Images/Home/ball.png',
+            icon: p.predictionId.sportImage && url + p.predictionId.sportImage,
         })),
         ...pricePredictions.map(p => ({
             title: `Price Prediction`,
             side: `$${p.predictedPrice}`,
             date: new Date(p.createdAt).toLocaleDateString(),
             status: p.isWinner ? 'Winner' : 'Pending',
-            icon: '/Images/Home/ball.png',
+            icon: p.pricePredictionId.bitcoinImage && url + p.pricePredictionId.bitcoinImage,
         })),
         ...pokerPredictions.map(p => ({
             title: `Poker Tournament`,
             side: p.pokernowUsername,
             date: new Date(p.createdAt).toLocaleDateString(),
             status: p.isWinner ? 'Winner' : 'Pending',
-            icon: '/Images/Home/ball.png',
+            icon: p?.pokertournamentId.uploadPokerTournamentImage && url + p.pokertournamentId.uploadPokerTournamentImage,
         })),
     ];
 
@@ -85,10 +86,12 @@ const MyPredictions = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {allPredictions.map((item, index) => (
+                        {allPredictions?.map((item, index) => (
                             <tr key={index} className="bg-white rounded-lg shadow-sm">
                                 <td className="py-4 px-4 flex items-center gap-3">
-                                    <img src={item.icon} alt="icon" className="w-8 h-8" />
+
+                                    <img src={item?.icon} alt="icon" className="w-8 h-8" />
+
                                     <span className="text-sm">{item.title}</span>
                                 </td>
                                 <td className="py-4 px-4 text-sm">{item.side}</td>
