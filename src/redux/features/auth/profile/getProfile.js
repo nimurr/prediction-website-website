@@ -6,8 +6,13 @@ const getProfile = apiSlice.injectEndpoints({
       query: () => `/users/self/in`,
       method: "GET",
       providesTags: ["Profile"]
+    }),
+    myAllPrediction: builder.query({
+      query: (id) => `/users/my-prediction/all/${id}`,
+      method: "GET",
+      providesTags: ["Prediction"]
     })
   })
 });
 
-export const { useGetProfileQuery } = getProfile;
+export const { useGetProfileQuery, useMyAllPredictionQuery } = getProfile;

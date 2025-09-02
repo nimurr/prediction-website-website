@@ -9,7 +9,14 @@ export const pokerPredictionApi = apiSlice.injectEndpoints({
                 body: data,
             }),
         }),
+        submitePokerPrediction: builder.mutation({
+            query: (data) => ({
+                url: `/poker-tournament/join-tournament`,
+                method: "POST",
+                body: data,
+            }),
+        })
     }),
 });
 
-export const { useGetAllPokerPredictionQuery } = pokerPredictionApi;
+export const { useGetAllPokerPredictionQuery, useSubmitePokerPredictionMutation } = pokerPredictionApi;

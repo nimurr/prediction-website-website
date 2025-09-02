@@ -23,6 +23,8 @@ const Header = () => {
         { label: 'Poker', href: '/join-poker-tornament' },
     ];
 
+    const [subItemOpen, setSubItemOpen] = useState(false);
+
     return (
         <header className="w-full shadow-md bg-white sticky top-0 z-50 py-2">
             <div className="contiainer mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between">
@@ -53,9 +55,22 @@ const Header = () => {
 
                     {
                         userData &&
-                        <Link href="/profile/info">
-                            <img className='w-10 h-10 rounded-full cursor-pointer' src={userData?.profileImage ? url + userData?.profileImage : "https://cdn-icons-png.flaticon.com/512/149/149071.png"} alt="" />
-                        </Link>
+                        <div className='relative'>
+                            <div onClick={() => setSubItemOpen(!subItemOpen)} >
+                                <img className='w-10 h-10 rounded-full cursor-pointer' src={userData?.profileImage ? url + userData?.profileImage : "https://cdn-icons-png.flaticon.com/512/149/149071.png"} alt="" />
+                            </div>
+                            {
+                                subItemOpen &&
+                                <div className='absolute buttom-0 right-0 bg-gray-100  rounded-lg overflow-hidden min-w-48'>
+                                    <Link className='py-2 hover:bg-blue-50 p-5 block' href="/profile/info">
+                                        Profile
+                                    </Link>
+                                    <Link className='py-2 hover:bg-blue-50 p-5 block' href="/profile/my-predictions">
+                                        My Predictions
+                                    </Link>
+                                </div>
+                            }
+                        </div>
                     }
 
                     {
