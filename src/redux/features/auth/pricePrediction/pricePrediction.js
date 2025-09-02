@@ -9,7 +9,14 @@ const pricePrediction = apiSlice.injectEndpoints({
                 body: data,
             }),
         }),
+        submitePricePrediction: builder.mutation({
+            query: (data) => ({
+                url: `/price-prediction/submit`,
+                method: "POST",
+                body: data,
+            }),
+        })
     }),
 });
 
-export const { useGetAllPricePredictionQuery } = pricePrediction
+export const { useGetAllPricePredictionQuery, useSubmitePricePredictionMutation } = pricePrediction
