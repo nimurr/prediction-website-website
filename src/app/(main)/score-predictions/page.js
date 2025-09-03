@@ -54,7 +54,8 @@ const Page = () => {
                     fullData?.map((item, index) => (
                         <div key={index} className='bg-[url("/Images/Home/preduction-1.png")] w-full bg-cover bg-no-repeat bg-center p-5 rounded-2xl border border-[#4c1d95] duration-500 hover:shadow-2xl shadow-purple-500/50'>
                             <div className='flex items-center justify-between gap-5'>
-                                <img src={url + item?.sportImage} alt="sport" className="w-12 h-12 object-contain" />
+                                <img src={url + item?.sportImage} alt="sport" className="!w-12 !h-12 object-contain" />
+
                                 <div className='flex items-center gap-2 '>
                                     <img src="/Images/Home/loading.png" alt="" />
                                     <p className='text-sm font-semibold text-[#4c1d95]'>

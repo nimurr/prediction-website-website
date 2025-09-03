@@ -49,7 +49,7 @@ const Predictions = () => {
                     fullData?.slice(0, 3)?.map((item, index) => (
                         <div key={index} className='bg-[url("/Images/Home/preduction-1.png")] w-full bg-cover bg-no-repeat bg-center p-5 rounded-2xl border border-[#4c1d95]  duration-500 hover:shadow-2xl shadow-purple-500/50'>
                             <div className='flex items-center justify-between gap-5'>
-                                <img src={url + item?.sportImage} alt="" />
+                                <img className='w-12 h-12' src={url + item?.sportImage} alt="" />
                                 <div className='flex items-center gap-2 '>
                                     <img src="/Images/Home/loading.png" alt="" />
                                     <p className='text-sm font-semibold text-[#4c1d95]'>{moment(item?.predictionDeadline).format('DD-MM-YYYY')}</p>

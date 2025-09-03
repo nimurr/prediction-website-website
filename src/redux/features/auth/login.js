@@ -14,7 +14,8 @@ const adminLogin = apiSlice.injectEndpoints({
                 url: `/auth/login`,
                 method: "POST",
                 body: data
-            })
+            }),
+            provided: ["Users"]
         }),
         verifyOtp: builder.mutation({
             query: (data) => ({

@@ -2,20 +2,23 @@
 
 import { useGetProfileQuery } from '@/redux/features/auth/profile/getProfile';
 import { useGetAllScorePredictionQuery, useSubmitPredictionMutation } from '@/redux/features/auth/scorePrediction/scorePrediction';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 
 const Page = () => {
     const { data: userData } = useGetProfileQuery();
     const profile = userData?.data?.attributes?.user;
 
+
+
     const { data, isLoading } = useGetAllScorePredictionQuery();
     const [submitPrediction, { isLoading: submitting }] = useSubmitPredictionMutation();
     const predictionData = data?.data;
 
+
     // Form state
     const [formData, setFormData] = useState({
-        userId: profile?.id,
+        userId: "",
         predictionId: '',
         bitcointalkUsername: '',
         bitcoinAddress: '',
@@ -23,6 +26,12 @@ const Page = () => {
         email: '',
         predictionSide: '',
     });
+
+
+
+    useEffect(() => {
+        formData.userId = profile?.id;
+    }, [profile])
 
     const [selectSite, setSelectSite] = useState([]);
     console.log(selectSite);
@@ -43,6 +52,7 @@ const Page = () => {
     const handleEventChange = (e) => {
         const eventId = e.target.value;
         const event = predictionData.find((ev) => ev._id === eventId);
+        console.log(event)
         setSelectedEvent(event);
         setFormData((prev) => ({
             ...prev,
@@ -59,6 +69,7 @@ const Page = () => {
                 ...formData,
                 selectTeam: formData.predictionSide, // ✅ API expects "selectTeam"
             };
+
 
             const result = await submitPrediction(payload).unwrap();
             console.log(result);

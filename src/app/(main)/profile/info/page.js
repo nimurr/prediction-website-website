@@ -3,6 +3,8 @@ import React from 'react';
 import Link from 'next/link';
 import { useGetProfileQuery } from '@/redux/features/auth/profile/getProfile';
 import url from '@/redux/api/baseUrl';
+import { IoMdLogOut } from 'react-icons/io';
+import { ToastContainer, toast } from 'react-toastify';
 
 const Page = () => {
 
@@ -10,9 +12,17 @@ const Page = () => {
     const profile = data?.data?.attributes?.user;
     console.log(profile);
 
+    const handleLogout = () => {
+        localStorage.removeItem('user');
+        localStorage.removeItem('token');
+        toast.success('Logout successful !!', { theme: "colored" });
+        window.location.href = "/"
+    }
+
 
     return (
         <div className="contiainer lg:py-20 py-10 px-5 lg:px-0">
+            <ToastContainer />
 
             {/* Breadcrumb */}
             <div className="text-xl text-gray-600 mb-6">
@@ -60,6 +70,7 @@ const Page = () => {
                     <Link href={'/profile/edit'} className="px-6 inline-block py-3 rounded-md bg-gradient-to-tl from-[#4c1d95] to-[#a878f1] cursor-pointer font-semibold text-white transition duration-200">
                         Update Profile
                     </Link>
+                    <button onClick={handleLogout} className="px-6 flex items-center gap-2 mt-3 py-3 rounded-md bg-gradient-to-tl from-[#970707] to-[#a50101] cursor-pointer font-semibold text-white transition duration-200" > Logout <IoMdLogOut /></button>
                 </div>
             </div>
         </div>
