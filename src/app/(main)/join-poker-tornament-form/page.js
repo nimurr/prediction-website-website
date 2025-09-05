@@ -12,12 +12,9 @@ const Page = () => {
     const { data: pokerTournaments, isLoading } = useGetAllPokerPredictionQuery();
     const [submitPoker, { isLoading: submitting }] = useSubmitePokerPredictionMutation();
 
-    console.log(pokerTournaments);
-
     const [formData, setFormData] = useState({
-        userId: profile?.id,
+        userId: '',
         pokertournamentId: '',
-        predictedPrice: '',
         bitcoinAddress: '',
         pokernowUsername: '',
         bitcointalkUsername: '',
@@ -26,7 +23,7 @@ const Page = () => {
         screenshotLink: ''
     });
 
-    // Prefill user data from profile
+    // Prefill user data from profile once it loads
     useEffect(() => {
         if (profile) {
             setFormData((prev) => ({
@@ -47,42 +44,28 @@ const Page = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        try {
-            const payload = {
-                ...formData,
-                predictedPrice: Number(formData.predictedPrice),
-            };
-            console.log('Submitting payload:', payload);
 
-            const res = await submitPoker(payload).unwrap();
+        if (!formData.userId) {
+            toast.error('User not loaded yet. Please wait.');
+            return;
+        }
+
+        try {
+            console.log('Submitting payload:', formData);
+            const res = await submitPoker(formData).unwrap();
             console.log(res);
             toast.success('Poker prediction submitted successfully!');
+
             e.target.reset();
-            setFormData({
-                userId: '',
+            setFormData((prev) => ({
+                ...prev,
                 pokertournamentId: '',
-                predictedPrice: '',
-                bitcoinAddress: '',
                 pokernowUsername: '',
-                bitcointalkUsername: '',
-                casinoUsername: '',
-                email: '',
                 screenshotLink: ''
-            });
+            }));
         } catch (err) {
             console.error(err);
             toast.error('Failed to submit prediction');
-            setFormData({
-                userId: '',
-                pokertournamentId: '',
-                predictedPrice: '',
-                bitcoinAddress: '',
-                pokernowUsername: '',
-                bitcointalkUsername: '',
-                casinoUsername: '',
-                email: '',
-                screenshotLink: ''
-            });
         }
     };
 
@@ -116,19 +99,6 @@ const Page = () => {
                             </option>
                         ))}
                     </select>
-                </div>
-
-                {/* Predicted Price */}
-                <div>
-                    <label className="block mb-1 font-medium">Predicted Price (USD):</label>
-                    <input
-                        type="number"
-                        name="predictedPrice"
-                        value={formData.predictedPrice}
-                        onChange={handleChange}
-                        className="w-full border p-3 rounded border-gray-200"
-                        required
-                    />
                 </div>
 
                 {/* Bitcoin Address */}

@@ -13,7 +13,7 @@ const Page = () => {
             <Hero />
             <Predictions />
             <PricePrediction />
-            <Ads />
+            {/* <Ads /> */}
             <Poker />
             <Bonuses />
         </div>
