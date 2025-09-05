@@ -5,6 +5,7 @@ import React from 'react';
 import { HiOutlineUserGroup } from 'react-icons/hi';
 import { TbMessage2Star } from 'react-icons/tb';
 import moment from 'moment';
+import url from '@/redux/api/baseUrl';
 
 const Bonuses = () => {
     const { data, isLoading } = useGetAllCasinoPredictionQuery();
@@ -36,7 +37,7 @@ const Bonuses = () => {
                         <div className='flex items-center '>
                             <img
                                 className='w-20 h-20 object-contain rounded-full border border-[#4c1d95] p-1'
-                                src={bonus.image}
+                                src={url + bonus.image}
                                 alt={bonus.bonusTitle}
                             />
                         </div>
@@ -65,7 +66,7 @@ const Bonuses = () => {
                                 <HiOutlineUserGroup className='text-2xl' />
                             </Link>
                             <Link
-                                href={`/casino-reviews/casino-reviews-details`}
+                                href={`/casino-reviews/casino-reviews-details?id=${bonus?._id}`}
                                 className='border border-[#4c1d95] cursor-pointer text-[#4c1d95] py-3 px-4 rounded-full flex items-center gap-2'
                             >
                                 Read Review
@@ -76,11 +77,10 @@ const Bonuses = () => {
                 ))}
             </div>
 
-    
+
         </div>
     );
 };
 
 export default Bonuses;
 
- 

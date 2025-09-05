@@ -43,7 +43,7 @@ const Poker = () => {
                     >
                         <div className='flex items-center justify-between gap-5'>
                             <img
-                            
+
                                 src={url + item?.uploadPokerTournamentImage}
                                 alt={item?.pokerTournamentTitle}
                                 className="w-12 h-12 object-contain"
