@@ -1,17 +1,23 @@
 'use client';
 import { useResetPasswordMutation } from '@/redux/features/auth/login';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const ResetPasswordPage = () => {
     const searchParams = useSearchParams();
-    const email = searchParams.get('email'); // get email from query string
+    const [email, setEmail] = useState('');
     const [resetPassword, { isLoading }] = useResetPasswordMutation();
 
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+    // useEffect দিয়ে email safe ভাবে set করা হচ্ছে
+    useEffect(() => {
+        const mail = searchParams.get('email');
+        if (mail) setEmail(mail);
+    }, [searchParams]);
 
     const togglePassword = () => setShowPassword(prev => !prev);
     const toggleConfirmPassword = () => setShowConfirmPassword(prev => !prev);
@@ -34,7 +40,6 @@ const ResetPasswordPage = () => {
 
         try {
             const res = await resetPassword({ email, password }).unwrap();
-            console.log(res);
             if (res?.code === 200) {
                 toast.success('Password reset successfully!');
                 e.target.reset();
@@ -43,7 +48,6 @@ const ResetPasswordPage = () => {
                 toast.error(res?.message || 'Failed to reset password');
             }
         } catch (error) {
-            console.error(error);
             toast.error(error?.data?.message || 'Something went wrong');
         }
     };
