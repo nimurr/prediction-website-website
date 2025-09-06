@@ -75,7 +75,7 @@ const Page = () => {
           <div className=" flex flex-col md:flex-row justify-between gap-6">
             {/* Logo and Button */}
             <div className="flex flex-col items-center md:items-start">
-              <img src={url + fullData?.image} alt="BC.Game Logo" className="w-20 mx-auto h-auto mb-3"/>
+              <img src={url + fullData?.image} alt="BC.Game Logo" className="w-20 mx-auto h-auto mb-3" />
               <Link target='_blank' href={fullData?.casinoLink || "#"} className="bg-[#007bff] block text-center hover:bg-blue-600 text-white font-semibold min-w-44 cursor-pointer px-8 py-3 rounded-xl shadow-lg shadow-blue-300">
                 Play now
               </Link>
@@ -105,7 +105,7 @@ const Page = () => {
                 <div className="shadow-lg bg-[#eee] space-y-1 rounded-md px-4 py-5 w-36 text-center">
                   <div className="text-xl text-blue-600 font-semibold">{fullData?.adminAvgRating} / 5</div>
                   <div className="flex justify-center items-center gap-1 text-blue-500">
-                    {Array(fullData?.adminAvgRating).fill(0).map((_, i) => <FaStar key={i} className="text-blue-500 text-base"/>)}
+                    {Array(fullData?.adminAvgRating).fill(0).map((_, i) => <FaStar key={i} className="text-blue-500 text-base" />)}
                   </div>
                   <div className="text-xs mt-1 text-gray-600">BTCGOSU RATING</div>
                 </div>
@@ -114,7 +114,7 @@ const Page = () => {
                 <div className="shadow-lg bg-[#eee] space-y-1 rounded-md px-4 py-5 w-36 text-center">
                   <div className="text-xl text-blue-600 font-semibold">{fullData?.userAvgRating} / 5</div>
                   <div className="flex justify-center items-center gap-1 text-blue-500">
-                    {[...Array(fullData?.userAvgRating)].map((_, i) => <FaStar key={i} className="text-blue-500 text-base"/>)}
+                    {[...Array(fullData?.userAvgRating)].map((_, i) => <FaStar key={i} className="text-blue-500 text-base" />)}
                   </div>
                   <div className="text-xs mt-1 text-gray-600">USER RATING (2)</div>
                 </div>
@@ -136,7 +136,7 @@ const Page = () => {
                       <span className="font-semibold text-xl text-[#111]">
                         <span className='text-blue-400 text-3xl'>•</span> {item?.title}
                       </span>
-                      <br/>
+                      <br />
                       <span className="text-gray-700">{item?.subTitle}</span>
                     </div>
                   ))}
@@ -175,7 +175,7 @@ const Page = () => {
                 <div key={index}>
                   <span className="text-base">{item?.description}</span>
                   {item?.image && (
-                    <img src={url + item.image} alt={`extra-${index}`} className="max-w-xs max-h-32 object-contain rounded"/>
+                    <img src={url + item.image} alt={`extra-${index}`} className="max-w-xs max-h-32 object-contain rounded" />
                   )}
                 </div>
               ))}
@@ -190,8 +190,8 @@ const Page = () => {
             {allReview?.map((item, i) => (
               <div key={i} className="flex items-center justify-between gap-3 border-b pb-4">
                 <div className="flex items-center gap-3">
-                  <img src={url + item.image} alt="logo" className="w-16 object-contain"/>
-                  <div className="text-sm text-[#111]">{item.bonusTitle?.slice(0,40)}</div>
+                  <img src={url + item.image} alt="logo" className="w-16 object-contain" />
+                  <div className="text-sm text-[#111]">{item.bonusTitle?.slice(0, 40)}</div>
                 </div>
                 <Link target='_blank' href={item?.casinoLink || "#"} className="bg-[#1eaaf1] block text-center text-white font-semibold px-4 py-1.5 text-sm rounded-md hover:bg-blue-600">
                   Play!
@@ -228,9 +228,9 @@ const Page = () => {
                     );
                   })}
                 </div>
-                <textarea className="w-full border p-2 rounded mb-4" rows="4" placeholder="Write your review here..." value={review} onChange={(e)=>setReview(e.target.value)} required/>
+                <textarea className="w-full border p-2 rounded mb-4" rows="4" placeholder="Write your review here..." value={review} onChange={(e) => setReview(e.target.value)} required />
                 <div className="flex justify-end gap-2">
-                  <button type="button" onClick={()=>setShowModal(false)} className="px-4 py-2 border rounded text-gray-600 hover:bg-gray-100">Cancel</button>
+                  <button type="button" onClick={() => setShowModal(false)} className="px-4 py-2 border rounded text-gray-600 hover:bg-gray-100">Cancel</button>
                   <button type="submit" className="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700">Submit</button>
                 </div>
               </form>
@@ -241,12 +241,12 @@ const Page = () => {
         {/* User Reviews */}
         {fullUserReview?.map((item, idx) => (
           <div key={idx} className="mt-10 rounded-lg shadow p-4 bg-white flex items-start gap-4">
-            <img src={url + item?.userId?.profileImage} alt="User Profile" className="w-10 h-10 rounded-full object-cover"/>
+            <img src={url + item?.userId?.profileImage} alt="User Profile" className="w-10 h-10 rounded-full object-cover" />
             <div className="flex-1">
               <div className="flex items-center justify-between mb-2">
                 <span className="font-semibold text-[#111]">{item?.userId?.fullName}</span>
                 <div className="flex items-center gap-1 text-yellow-400">
-                  {[...Array(item?.rating)].map((_, idx) => (<FaStar key={idx} className="text-base"/>))}
+                  {[...Array(item?.rating)].map((_, idx) => (<FaStar key={idx} className="text-base" />))}
                   ({item?.rating}/5)
                 </div>
               </div>
