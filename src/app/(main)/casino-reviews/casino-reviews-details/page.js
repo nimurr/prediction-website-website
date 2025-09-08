@@ -186,7 +186,7 @@ const Page = () => {
         <div className="lg:col-span-2 w-full bg-gray-100 rounded-lg p-4 ">
           <h2 className="text-center text-xl font-bold mb-4">Contest Hunters</h2>
           <div className="space-y-6">
-            {allReview?.map((item, i) => (
+            {allReview?.slice(0, 10)?.map((item, i) => (
               <div key={i} className="flex items-center justify-between gap-3 border-b pb-4">
                 <div className="flex items-center gap-3">
                   <img src={url + item?.image} alt="logo" className="w-16 object-contain" />
