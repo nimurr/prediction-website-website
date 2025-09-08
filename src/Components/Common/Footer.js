@@ -6,6 +6,7 @@ import {
     FaXTwitter,
     FaLinkedinIn,
     FaInstagram,
+    FaTelegram,
 } from 'react-icons/fa6';
 import Link from 'next/link';
 
@@ -31,19 +32,12 @@ const Footer = () => {
 
                 {/* Right: Social Icons */}
                 <div className="flex gap-5 text-[#d2cbe8] text-lg">
-                    <Link href="https://facebook.com" target="_blank" title='Facebook' aria-label="Facebook">
-                        <FaFacebookF className="hover:text-white transition text-2xl" />
+                    <Link href="https://t.me/contesthunters" target="_blank" title='Facebook' aria-label="Facebook">
+                        <FaTelegram className="hover:text-white transition text-2xl" />
                     </Link>
-                    <Link href="https://twitter.com" target="_blank" title='Twitter' aria-label="X / Twitter">
+                    <Link href="https://x.com/Contest_Hunters" target="_blank" title='Twitter' aria-label="X / Twitter">
                         <FaXTwitter className="hover:text-white transition text-2xl" />
                     </Link>
-                    <Link href="https://linkedin.com" target="_blank" title='Linkedin' aria-label="LinkedIn">
-                        <FaLinkedinIn className="hover:text-white transition text-2xl" />
-                    </Link>
-                    <Link href="https://instagram.com" target="_blank" title='Instagram' aria-label="Instagram">
-                        <FaInstagram className="hover:text-white transition text-2xl" />
-                    </Link>
-
                 </div>
             </div>
         </footer>
