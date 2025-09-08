@@ -28,7 +28,7 @@ const Bonuses = () => {
 
             {/* Cards */}
             <div className='my-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 bg-white'>
-                {fullData?.slice(0, 3)?.map((bonus, index) => (
+                {fullData?.map((bonus, index) => (
                     <div
                         key={index}
                         className='bg-[url("/Images/Home/preduction-2.png")] w-full bg-cover bg-no-repeat bg-center p-5 rounded-2xl border border-[#4c1d95] duration-500 hover:shadow-2xl shadow-purple-500/50'
