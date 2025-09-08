@@ -23,7 +23,7 @@ const Footer = () => {
 
                 {/* Center: Copyright */}
                 <div className="text-sm text-center text-gray-300">
-                    © 2025 SportIQ.com | Managed by <span className="font-medium">Little Mouse</span>
+                    ©2025 contesthunters.com | Managed by <span className="font-medium">Little Mouse</span>
                 </div>
 
                 {/* Divider - Only visible on md+ screens */}

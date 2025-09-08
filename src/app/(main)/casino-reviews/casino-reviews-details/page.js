@@ -107,7 +107,7 @@ const Page = () => {
                   <div className="flex justify-center items-center gap-1 text-blue-500">
                     {Array(fullData?.adminAvgRating).fill(0).map((_, i) => <FaStar key={i} className="text-blue-500 text-base" />)}
                   </div>
-                  <div className="text-xs mt-1 text-gray-600">BTCGOSU RATING</div>
+                  <div className="text-xs mt-1 text-gray-600 uppercase">Our Rating</div>
                 </div>
 
                 {/* User Rating */}
