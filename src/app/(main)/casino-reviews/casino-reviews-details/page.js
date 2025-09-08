@@ -116,7 +116,7 @@ const Page = () => {
                 <div className="shadow-lg bg-[#eee] space-y-1 rounded-md px-4 py-5 w-36 text-center">
                   <div className="text-xl text-blue-600 font-semibold">{fullData?.userAvgRating} / 5</div>
                   <div className="flex justify-center items-center gap-1 text-blue-500">
-                    {[...Array(fullData?.userAvgRating)].map((_, i) => <FaStar key={i} className="text-blue-500 text-base" />)}
+                    {/* {[...Array(fullData?.userAvgRating)].map((_, i) => <FaStar key={i} className="text-blue-500 text-base" />)} */}
                   </div>
                   <div className="text-xs mt-1 text-gray-600">USER RATING (2)</div>
                 </div>
