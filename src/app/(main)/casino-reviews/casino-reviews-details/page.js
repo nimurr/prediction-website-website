@@ -35,6 +35,7 @@ const Page = () => {
 
   const { data: mainData, refetch } = useGetAllCasinoPredictionQuery();
   const allReview = mainData?.data;
+  console.log(fullData);
 
   const [showModal, setShowModal] = useState(false);
   const [rating, setRating] = useState(0);
@@ -62,6 +63,7 @@ const Page = () => {
 
   const { data: userReview } = useGetAllReviewOfThisPostQuery(id, { skip: !id });
   const fullUserReview = userReview?.data;
+
 
   // ✅ Render nothing until id is ready
   if (!id) return null;
@@ -174,9 +176,7 @@ const Page = () => {
               {fullData?.otherAllInfoTitleDescriptionImage?.map((item, index) => (
                 <div key={index}>
                   <span className="text-base">{item?.description}</span>
-                  {item?.image && (
-                    <img src={url + item.image} alt={`extra-${index}`} className="max-w-xs max-h-32 object-contain rounded" />
-                  )}
+                  <img src={url + item?.image} alt={`extra-${index}`} className="max-w-xs max-h-32 object-contain rounded" />
                 </div>
               ))}
             </div>
@@ -190,7 +190,7 @@ const Page = () => {
             {allReview?.map((item, i) => (
               <div key={i} className="flex items-center justify-between gap-3 border-b pb-4">
                 <div className="flex items-center gap-3">
-                  <img src={url + item.image} alt="logo" className="w-16 object-contain" />
+                  <img src={url + item?.image} alt="logo" className="w-16 object-contain" />
                   <div className="text-sm text-[#111]">{item.bonusTitle?.slice(0, 40)}</div>
                 </div>
                 <Link target='_blank' href={item?.casinoLink || "#"} className="bg-[#1eaaf1] block text-center text-white font-semibold px-4 py-1.5 text-sm rounded-md hover:bg-blue-600">
