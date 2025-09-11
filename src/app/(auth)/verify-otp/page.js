@@ -51,11 +51,11 @@ const OTPVerificationPage = () => {
         <div className="bg-[url('/Images/Home/preduction-2.png')] w-full min-h-screen bg-cover bg-center flex items-center justify-center">
             <ToastContainer />
             <div className='w-full max-w-md border-2 border-purple-700 p-6 rounded-lg bg-white shadow-md'>
+                <p className='text-red-500 text-center mb-2'>It may take up to 5 mins to reach otp.</p>
                 <h2 className='text-3xl font-semibold text-[#4c1d95] mb-2'>Verify OTP</h2>
                 <p className='mb-5 text-sm text-gray-600'>
                     Please enter the 6-digit OTP sent to your email: <strong>{email}</strong>
                 </p>
-
                 <div className='mb-6'>
                     <label className='font-semibold block mb-2'>Enter OTP</label>
                     <OTPInput

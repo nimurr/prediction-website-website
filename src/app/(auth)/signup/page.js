@@ -151,12 +151,12 @@ const Page = () => {
                 </div>
 
                 {/* Submit */}
-                <button className='w-full bg-purple-700 text-white font-semibold py-2 rounded-md hover:bg-purple-800 transition'>
+                <button className='w-full cursor-pointer bg-purple-700 text-white font-semibold py-2 rounded-md hover:bg-purple-800 transition'>
                     Sign Up
                 </button>
 
                 {/* Footer */}
-                <p className='text-center text-sm mt-5 text-gray-600'>
+                <p className='text-center text-sm mt-5 cursor-pointer text-gray-600'>
                     Already have an account?{' '}
                     <Link href='/login' className='text-blue-600'>Login</Link>
                 </p>
