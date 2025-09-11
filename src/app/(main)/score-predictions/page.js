@@ -11,6 +11,7 @@ import { Modal } from 'antd';
 const Page = () => {
     const { data, isLoading } = useGetAllScorePredictionQuery();
     const fullData = data?.data;
+    console.log(fullData);
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedMatch, setSelectedMatch] = useState(null);
@@ -68,6 +69,7 @@ const Page = () => {
                                     {item?.firstTeamName} vs {item?.secondTeamName}
                                 </h2>
                                 <p className='font-medium mt-3'>{item?.sportTitle}</p>
+                                <span className='mt-3 inline-block text-sm bg-amber-100 p-1 rounded'>Total Prediciton:- ({item?.applyAllPredictions?.length})</span>
                             </div>
                             <div className='flex items-center justify-between gap-5'>
                                 <Link href={'/submit-prediction'} className='bg-gradient-to-tl max-w-64 justify-center from-[#4c1d95] to-[#a878f1] cursor-pointer transition-colors text-white py-3 px-6 rounded-full flex items-center gap-2'>

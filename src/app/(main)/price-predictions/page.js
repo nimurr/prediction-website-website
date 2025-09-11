@@ -12,7 +12,6 @@ import url from '@/redux/api/baseUrl';
 const Bonuses = () => {
     const { data, isLoading } = useGetAllPricePredictionQuery();
     const fullData = data?.data;
-
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedPrediction, setSelectedPrediction] = useState(null);
 
@@ -71,6 +70,7 @@ const Bonuses = () => {
                                     {item?.bitcoinTitle}
                                 </h2>
                                 <p className='font-medium mt-3'>{item?.bitcoinSubtitle}</p>
+                                <span className='mt-3 inline-block text-sm bg-amber-100 p-1 rounded'>Total Prediciton:- ({item?.applyPricePredictions?.length})</span>
                             </div>
 
                             <div className='flex items-center justify-between gap-5'>

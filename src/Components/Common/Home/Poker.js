@@ -10,6 +10,7 @@ import url from '@/redux/api/baseUrl';
 const Poker = () => {
     const { data } = useGetAllPokerPredictionQuery();
     const fullData = data?.data;
+ 
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedTournament, setSelectedTournament] = useState(null);
@@ -72,6 +73,7 @@ const Poker = () => {
                             <p className='font-semibold my-2'>
                                 Rewards: <span className='font-medium text-gray-500'>${item?.rewards}</span>
                             </p>
+                             <span className='mt-3 inline-block text-sm bg-amber-100 p-1 rounded'>Total Prediciton:- ({item?.applyPokerTournamentUsers?.length})</span>
                         </div>
 
                         <div className='flex items-center  gap-3 flex-wrap '>

@@ -10,6 +10,7 @@ import url from '@/redux/api/baseUrl';
 const Bonuses = () => {
     const { data, isLoading } = useGetAllCasinoPredictionQuery();
     const fullData = data?.data;
+    console.log(fullData);
 
     if (isLoading) {
         return <p className=" py-10">Loading bonuses...</p>;
