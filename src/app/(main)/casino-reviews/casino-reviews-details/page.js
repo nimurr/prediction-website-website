@@ -11,6 +11,7 @@ import { message } from 'antd';
 import moment from 'moment';
 import Link from 'next/link';
 import { FaStar } from 'react-icons/fa';
+import { ToastContainer, toast } from 'react-toastify';
 
 const Page = () => {
   const [userId, setUserId] = useState("");
@@ -54,10 +55,30 @@ const Page = () => {
 
     try {
       const res = await submiteReview(data).unwrap();
-      message.success("Review Submitted Successfully!");
+      toast.success("Review Submitted Successfully!", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      })
       if (res.status) refetch();
     } catch (error) {
-      message.error("Failed! Please try again");
+      console.log(error);
+      // message.error("Failed! Please try again");
+      toast.error("Please Login First for Give Review", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      })
     }
   };
 
@@ -70,6 +91,7 @@ const Page = () => {
 
   return (
     <div className="contiainer px-4 md:py-20 py-10 font-sans text-[#111]">
+      <ToastContainer />
       {/* Top Section */}
       <div className="grid grid-cols-1 lg:grid-cols-8 gap-6 items-start pb-6">
         {/* Left Side */}
@@ -180,11 +202,11 @@ const Page = () => {
               </div>
             </div>
 
-            <div className='space-y-5 mt-10'>
+            <div className='space-y-10 mt-10'>
               {fullData?.otherAllInfoTitleDescriptionImage?.map((item, index) => (
                 <div key={index}>
                   <span className="text-base">{item?.description}</span>
-                  <img src={url + item?.image} alt={`extra-${index}`} className="max-w-xs max-h-32 object-contain rounded" />
+                  <img src={url + item?.image} alt={`extra-${index}`} className="w-[100vw] max-h-60 mt-5 rounded" />
                 </div>
               ))}
             </div>
@@ -212,13 +234,14 @@ const Page = () => {
 
       {/* Review Section */}
       <div className="container mx-auto px-4 py-20 font-sans text-[#111]">
-        <div className="flex justify-end mb-6">
+        <div className="flex justify-between mb-6">
+          <h2>Total Users Reviews ( {fullData?.reviewedUsers?.length} )</h2>
           <button onClick={() => setShowModal(true)} className="bg-purple-600 cursor-pointer text-white px-6 py-2 rounded-md hover:bg-purple-700 shadow">Write a Review</button>
         </div>
 
         {/* Review Modal */}
         {showModal && (
-          <div className="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50">
+          <div className="fixed inset-0 bg-[#00000085] bg-opacity-40 flex justify-center items-center z-50">
             <div className="bg-white p-6 rounded-lg w-full max-w-md shadow-lg relative">
               <h2 className="text-xl font-semibold mb-4">Leave a Review</h2>
               <form onSubmit={handleSubmit}>
@@ -238,8 +261,8 @@ const Page = () => {
                 </div>
                 <textarea className="w-full border p-2 rounded mb-4" rows="4" placeholder="Write your review here..." value={review} onChange={(e) => setReview(e.target.value)} required />
                 <div className="flex justify-end gap-2">
-                  <button type="button" onClick={() => setShowModal(false)} className="px-4 py-2 border rounded text-gray-600 hover:bg-gray-100">Cancel</button>
-                  <button type="submit" className="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700">Submit</button>
+                  <button type="button" onClick={() => setShowModal(false)} className="px-4 cursor-pointer py-2 border rounded text-gray-600 hover:bg-gray-100">Cancel</button>
+                  <button type="submit" className="px-4 py-2 bg-purple-600 cursor-pointer text-white rounded hover:bg-purple-700">Submit</button>
                 </div>
               </form>
             </div>
