@@ -2,44 +2,38 @@
 
 import { useGetProfileQuery } from '@/redux/features/auth/profile/getProfile';
 import { useGetAllScorePredictionQuery, useSubmitPredictionMutation } from '@/redux/features/auth/scorePrediction/scorePrediction';
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Page = () => {
     const { data: userData } = useGetProfileQuery();
     const profile = userData?.data?.attributes?.user;
 
-
-
     const { data, isLoading } = useGetAllScorePredictionQuery();
     const [submitPrediction, { isLoading: submitting }] = useSubmitPredictionMutation();
     const predictionData = data?.data;
 
-
     // Form state
     const [formData, setFormData] = useState({
-        userId: "",
+        userId: '',
         predictionId: '',
         bitcointalkUsername: '',
         bitcoinAddress: '',
         casinoUsername: '',
         email: '',
-        predictionSide: '',
+        predictionTime: '',
+        predictionSide1: '',
+        predictionSide2: '',
+        status: 'submitted',
     });
 
-
-
+    // Set userId when profile is loaded
     useEffect(() => {
-        formData.userId = profile?.id;
-    }, [profile])
+        setFormData((prev) => ({ ...prev, userId: profile?.id }));
+    }, [profile]);
 
-    const [selectSite, setSelectSite] = useState([]);
-    console.log(selectSite);
-
-    // Keep track of the selected contest to render dynamic teams
-    const [selectedEvent, setSelectedEvent] = useState(null);
-
-    // Handle input changes
+    // Handle input change
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData((prev) => ({
@@ -51,67 +45,55 @@ const Page = () => {
     // Handle contest selection
     const handleEventChange = (e) => {
         const eventId = e.target.value;
-        const event = predictionData.find((ev) => ev._id === eventId);
-        console.log(event)
-        setSelectedEvent(event);
         setFormData((prev) => ({
             ...prev,
             predictionId: eventId,
-            predictionSide: '', // reset side when contest changes
         }));
     };
 
-    // Handle form submit
+    // Handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
-        try {
-            const payload = {
-                ...formData,
-                selectTeam: formData.predictionSide, // ✅ API expects "selectTeam"
-            };
 
+
+
+        // if (!formData.userId || !formData.predictionId) {
+        //   toast.error('User or contest not selected correctly.');
+        //   return;
+        // }
+
+        try {
+            const payload = { ...formData };
+            console.log('Submitting payload:', payload);
 
             const result = await submitPrediction(payload).unwrap();
-            console.log(result);
+
             if (result?.code === 200) {
-                toast.success('Prediction submitted successfully!', {
-                    position: "top-right",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "colored",
-                })
-                e.target.reset();
-                formData.predictionSide = '';
-                formData.predictionId = '';
-                formData.bitcointalkUsername = '';
-                formData.bitcoinAddress = '';
-                formData.casinoUsername = '';
-                formData.email = '';
+                toast.success('Prediction submitted successfully!');
+                // Reset form except userId
+                setFormData((prev) => ({
+                    ...prev,
+                    predictionId: '',
+                    bitcointalkUsername: '',
+                    bitcoinAddress: '',
+                    casinoUsername: '',
+                    email: '',
+                    predictionTime: '',
+                    predictionSide1: '',
+                    predictionSide2: '',
+                }));
             }
         } catch (error) {
-            toast.error(error?.data?.message, {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "colored",
-            })
+            toast.error(error?.data?.message || 'Something went wrong');
         }
     };
 
     if (isLoading) return <p className="text-center py-10">Loading contests...</p>;
 
     return (
-        <div className="contiainer lg:py-20 py-10 px-5 lg:px-0">
+        <div className="px-4 md:px-0 contiainer py-10">
             <ToastContainer />
-            <h2 className="text-sm text-gray-600 my-10 font-semibold">
+            <h2 className="text-sm text-gray-600 my-10 font-semibold p-2">
                 <span className="text-blue-600">Home</span> &gt; Submit Prediction
             </h2>
 
@@ -119,7 +101,7 @@ const Page = () => {
                 <h1 className="text-2xl font-bold mb-4">Submit Your Prediction</h1>
                 <hr className="border-0 h-0.5 bg-gray-400" />
 
-                {/* Event Selection */}
+                {/* Contest Selection */}
                 <div>
                     <label className="block mb-1 font-medium">Select Contest:</label>
                     <select
@@ -131,7 +113,7 @@ const Page = () => {
                     >
                         <option value="">--Choose An Event--</option>
                         {predictionData?.map((event) => (
-                            <option onChange={() => setSelectSite(event)} key={event._id} value={event._id}>
+                            <option key={event._id} value={event._id}>
                                 {event.firstTeamName} vs {event.secondTeamName}
                             </option>
                         ))}
@@ -154,13 +136,13 @@ const Page = () => {
 
                 {/* Bitcoin Address */}
                 <div>
-                    <label className="block mb-1 font-medium">Your Bitcoin Address:</label>
+                    <label className="block mb-1 font-medium">Bitcoin Address:</label>
                     <input
                         type="text"
                         name="bitcoinAddress"
                         value={formData.bitcoinAddress}
                         onChange={handleChange}
-                        placeholder="Enter your Bitcoin address"
+                        placeholder="Enter your Bitcoin Address"
                         className="w-full border p-3 rounded border-gray-200 focus:border-[#4c1d95] outline-none"
                         required
                     />
@@ -189,41 +171,53 @@ const Page = () => {
                             name="email"
                             value={formData.email}
                             onChange={handleChange}
-                            placeholder="Enter your Email Address"
+                            placeholder="Enter your Email"
                             className="w-full border p-3 rounded border-gray-200 focus:border-[#4c1d95] outline-none"
                         />
                     </div>
                 </div>
 
-                {/* Prediction Side (Dynamic from selected contest) */}
-                {selectedEvent && (
-                    <div>
-                        <label className="block mb-1 font-medium">Choose your Prediction side:</label>
-                        <div className="grid grid-cols-2 gap-5">
-                            <label className="flex cursor-pointer hover:bg-blue-100 bg-white p-3 rounded-lg items-center gap-2">
-                                <input
-                                    type="radio"
-                                    name="predictionSide"
-                                    value={selectedEvent.firstTeamName}
-                                    checked={formData.predictionSide === selectedEvent.firstTeamName}
-                                    onChange={handleChange}
-                                    required
-                                />
-                                {selectedEvent.firstTeamName}
-                            </label>
-                            <label className="flex cursor-pointer hover:bg-blue-100 bg-white p-3 rounded-lg items-center gap-2">
-                                <input
-                                    type="radio"
-                                    name="predictionSide"
-                                    value={selectedEvent.secondTeamName}
-                                    checked={formData.predictionSide === selectedEvent.secondTeamName}
-                                    onChange={handleChange}
-                                />
-                                {selectedEvent.secondTeamName}
-                            </label>
-                        </div>
-                    </div>
-                )}
+                {/* Prediction Time */}
+                <div>
+                    <label className="block mb-1 font-medium">Prediction Time:</label>
+                    <input
+                        type="text"
+                        name="predictionTime"
+                        value={formData.predictionTime}
+                        onChange={handleChange}
+                        placeholder="Enter Prediction Time (e.g. 10 AM)"
+                        className="w-full border p-3 rounded border-gray-200 focus:border-[#4c1d95] outline-none"
+                        required
+                    />
+                </div>
+
+                {/* Prediction Side 1 */}
+                <div>
+                    <label className="block mb-1 font-medium">Prediction Side 1:</label>
+                    <input
+                        type="text"
+                        name="predictionSide1"
+                        value={formData.predictionSide1}
+                        onChange={handleChange}
+                        placeholder="Enter Prediction Side 1"
+                        className="w-full border p-3 rounded border-gray-200 focus:border-[#4c1d95] outline-none"
+                        required
+                    />
+                </div>
+
+                {/* Prediction Side 2 */}
+                <div>
+                    <label className="block mb-1 font-medium">Prediction Side 2:</label>
+                    <input
+                        type="text"
+                        name="predictionSide2"
+                        value={formData.predictionSide2}
+                        onChange={handleChange}
+                        placeholder="Enter Prediction Side 2"
+                        className="w-full border p-3 rounded border-gray-200 focus:border-[#4c1d95] outline-none"
+                        required
+                    />
+                </div>
 
                 <button
                     type="submit"
