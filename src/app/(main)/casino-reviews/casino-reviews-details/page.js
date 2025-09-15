@@ -10,8 +10,9 @@ import {
 import { message } from 'antd';
 import moment from 'moment';
 import Link from 'next/link';
-import { FaStar } from 'react-icons/fa';
+import { FaStar, FaStarHalfAlt } from 'react-icons/fa';
 import { ToastContainer, toast } from 'react-toastify';
+import { FaRegStar } from 'react-icons/fa6';
 
 const Page = () => {
   const [userId, setUserId] = useState("");
@@ -138,18 +139,31 @@ const Page = () => {
                   <div className="text-xs mt-1 text-gray-600 uppercase">Our Rating</div>
                 </div>
 
-                {/* User Rating */}
+
                 <div className="shadow-lg bg-[#eee] space-y-1 rounded-md px-4 py-5 w-36 text-center">
-                  <div className="text-xl text-blue-600 font-semibold">{fullData?.userAvgRating} / 5</div>
-                  <div className="flex justify-center items-center gap-1 text-blue-500">
-                    <FaStar className="text-blue-500 text-base" />
-                    <FaStar className="text-blue-500 text-base" />
-                    <FaStar className="text-blue-500 text-base" />
-                    <FaStar className="text-blue-500 text-base" />
-                    <FaStar className="text-blue-500 text-base" />
+                  <div className="text-xl text-blue-600 font-semibold">
+                    {fullData?.userAvgRating} / 5
                   </div>
+
+                  <div className="flex items-center gap-1 text-yellow-400">
+                    {Array.from({ length: 5 }, (_, idx) => {
+                      const rating = fullData?.userAvgRating || 0;
+                      if (idx + 1 <= Math.floor(rating)) {
+                        // Full star
+                        return <FaStar key={idx} className="text-base" />;
+                      } else if (idx < rating && rating % 1 !== 0) {
+                        // Half star
+                        return <FaStarHalfAlt key={idx} className="text-base" />;
+                      } else {
+                        // Empty star
+                        return <FaRegStar key={idx} className="text-base text-gray-300" />;
+                      }
+                    })}
+                  </div>
+
                   <div className="text-xs mt-1 text-gray-600">USER RATING</div>
                 </div>
+
               </div>
             </div>
           </div>

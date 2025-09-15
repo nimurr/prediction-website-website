@@ -189,7 +189,7 @@ const Page = () => {
                         name="predictionTime"
                         value={formData.predictionTime}
                         onChange={handleChange}
-                        placeholder="Enter time (in minutes)"
+                        placeholder="Predict the minute of first goal"
                         className="w-full border p-3 rounded border-gray-200 focus:border-[#4c1d95] outline-none"
                         required
                     />
@@ -204,7 +204,7 @@ const Page = () => {
                             name="predictionSide1"
                             value={formData.predictionSide1}
                             onChange={handleChange}
-                            placeholder="Enter Prediction Side 1"
+                            placeholder="Enter Score"
                             className="w-full border p-3 rounded border-gray-200 focus:border-[#4c1d95] outline-none"
                             required
                         />
@@ -212,13 +212,13 @@ const Page = () => {
 
                     {/* Prediction Side 2 */}
                     <div className='max-w-48'>
-                        <label className="block mb-1 font-medium">Team A:</label>
+                        <label className="block mb-1 font-medium">Team B:</label>
                         <input
                             type="text"
                             name="predictionSide2"
                             value={formData.predictionSide2}
                             onChange={handleChange}
-                            placeholder="Enter Prediction Side 2"
+                            placeholder="Enter Score"
                             className="w-full border p-3 rounded border-gray-200 focus:border-[#4c1d95] outline-none"
                             required
                         />
