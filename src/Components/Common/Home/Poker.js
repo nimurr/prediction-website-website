@@ -10,7 +10,7 @@ import url from '@/redux/api/baseUrl';
 const Poker = () => {
     const { data } = useGetAllPokerPredictionQuery();
     const fullData = data?.data;
- 
+
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedTournament, setSelectedTournament] = useState(null);
@@ -55,11 +55,11 @@ const Poker = () => {
                                     {moment(item?.time).format('DD MMM, YYYY')}
                                 </p>
                             </div>
-                            <div className='flex items-center gap-3'>
+                            {/* <div className='flex items-center gap-3'>
                                 <p className='text-sm font-semibold bg-[#4d1d9536] py-1 px-3 rounded-full text-[#4c1d95]'>
                                     {item?.type}
                                 </p>
-                            </div>
+                            </div> */}
                         </div>
 
                         <div className='my-5'>
@@ -73,7 +73,7 @@ const Poker = () => {
                             <p className='font-semibold my-2'>
                                 Rewards: <span className='font-medium text-gray-500'>${item?.rewards}</span>
                             </p>
-                             <span className='mt-3 inline-block text-sm bg-amber-100 p-1 rounded'>Total Prediciton:- ({item?.applyPokerTournamentUsers?.length})</span>
+                            <span className='mt-3 inline-block text-sm bg-amber-100 p-1 rounded'>Total Prediciton:- ({item?.applyPokerTournamentUsers?.length})</span>
                         </div>
 
                         <div className='flex items-center  gap-3 flex-wrap '>
