@@ -1,135 +1,235 @@
 'use client';
-import Link from 'next/link';
-import React, { useState } from 'react';
-import { FaChevronRight } from 'react-icons/fa6';
-import { IoMdShareAlt } from "react-icons/io";
-import { useGetAllScorePredictionQuery } from '@/redux/features/auth/scorePrediction/scorePrediction';
-import url from '@/redux/api/baseUrl';
-import moment from 'moment';
-import { Modal } from 'antd';
+
+import { useGetProfileQuery } from '@/redux/features/auth/profile/getProfile';
+import { useGetAllScorePredictionQuery, useSubmitPredictionMutation } from '@/redux/features/auth/scorePrediction/scorePrediction';
+import React, { useState, useEffect } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Page = () => {
+    const { data: userData } = useGetProfileQuery();
+    const profile = userData?.data?.attributes?.user;
+
     const { data, isLoading } = useGetAllScorePredictionQuery();
-    const fullData = data?.data;
-    console.log(fullData);
+    const [submitPrediction, { isLoading: submitting }] = useSubmitPredictionMutation();
+    const predictionData = data?.data;
 
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [selectedMatch, setSelectedMatch] = useState(null);
+    // Form state
+    const [formData, setFormData] = useState({
+        userId: '',
+        predictionId: '',
+        bitcointalkUsername: '',
+        bitcoinAddress: '',
+        casinoUsername: '',
+        email: '',
+        predictionTime: '',
+        predictionSide1: '',
+        predictionSide2: '',
+        status: 'submitted',
+    });
 
-    const handleOpenModal = (item) => {
-        setSelectedMatch(item);
-        setIsModalOpen(true);
+    // Set userId when profile is loaded
+    useEffect(() => {
+        setFormData((prev) => ({ ...prev, userId: profile?.id }));
+    }, [profile]);
+
+    // Handle input change
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData((prev) => ({
+            ...prev,
+            [name]: value,
+        }));
     };
 
-    const handleCloseModal = () => {
-        setIsModalOpen(false);
-        setSelectedMatch(null);
+    // Handle contest selection
+    const handleEventChange = (e) => {
+        const eventId = e.target.value;
+        setFormData((prev) => ({
+            ...prev,
+            predictionId: eventId,
+        }));
     };
+
+    // Handle form submission
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+
+
+        // if (!formData.userId || !formData.predictionId) {
+        //   toast.error('User or contest not selected correctly.');
+        //   return;
+        // }
+
+        try {
+            const payload = { ...formData };
+            console.log('Submitting payload:', payload);
+
+            const result = await submitPrediction(payload).unwrap();
+
+            if (result?.code === 200) {
+                toast.success('Prediction submitted successfully!');
+                // Reset form except userId
+                setFormData((prev) => ({
+                    ...prev,
+                    predictionId: '',
+                    bitcointalkUsername: '',
+                    bitcoinAddress: '',
+                    casinoUsername: '',
+                    email: '',
+                    predictionTime: '',
+                    predictionSide1: '',
+                    predictionSide2: '',
+                }));
+            }
+        } catch (error) {
+            toast.error(error?.data?.message || 'Something went wrong');
+        }
+    };
+
+    if (isLoading) return <p className="text-center py-10">Loading contests...</p>;
 
     return (
-        <div className='contiainer mx-auto py-10 px-4 '>
-            {/* Breadcrumb */}
-            <div className='flex items-center text-sm mb-10 font-semibold gap-3 '>
-                <h3 className=' '>Home</h3> <FaChevronRight /> <span className='text-[#4c1d95]'>Score Predictions</span>
-            </div>
+        <div className="px-4 md:px-0 contiainer py-10">
+            <ToastContainer />
+            <h2 className="text-sm text-gray-600 my-10 font-semibold p-2">
+                <span className="text-blue-600">Home</span> &gt; Submit Prediction
+            </h2>
 
-            {/* Title */}
-            <div>
-                <div className='flex items-center gap-3 mb-5'>
-                    <img src="/Images/Common/icons-title.png" alt="" />
-                    <h3 className='text-xl font-semibold text-[#4c1d95]'>Predictions</h3>
+            <form onSubmit={handleSubmit} className="space-y-4 p-5 bg-gray-50 rounded-2xl my-10">
+                <h1 className="text-2xl font-bold mb-4">Submit Your Prediction</h1>
+                <hr className="border-0 h-0.5 bg-gray-400" />
+
+                {/* Contest Selection */}
+                <div>
+                    <label className="block mb-1 font-medium">Select Contest:</label>
+                    <select
+                        name="predictionId"
+                        value={formData.predictionId}
+                        onChange={handleEventChange}
+                        className="w-full border p-3 rounded border-gray-200 focus:border-[#4c1d95] outline-none"
+                        required
+                    >
+                        <option value="">--Choose An Event--</option>
+                        {predictionData?.map((event) => (
+                            <option key={event._id} value={event._id}>
+                                {event.firstTeamName} vs {event.secondTeamName}
+                            </option>
+                        ))}
+                    </select>
                 </div>
-                <h2 className='md:text-5xl text-3xl font-semibold'>Featured Contests</h2>
-            </div>
 
-            {/* Loader */}
-            {isLoading && (
-                <div className="text-center py-10 text-lg font-semibold text-[#4c1d95]">
-                    Loading predictions...
+                {/* Bitcointalk Username */}
+                <div>
+                    <label className="block mb-1 font-medium">Bitcointalk Username:</label>
+                    <input
+                        type="text"
+                        name="bitcointalkUsername"
+                        value={formData.bitcointalkUsername}
+                        onChange={handleChange}
+                        placeholder="Enter your Bitcointalk Username"
+                        className="w-full border p-3 rounded border-gray-200 focus:border-[#4c1d95] outline-none"
+                        required
+                    />
                 </div>
-            )}
 
-            {/* Predictions Grid */}
-            <div className='my-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 bg-white'>
-                {
-                    fullData?.map((item, index) => (
-                        <div key={index} className='bg-[url("/Images/Home/preduction-1.png")] w-full bg-cover bg-no-repeat bg-center p-5 rounded-2xl border border-[#4c1d95] duration-500 hover:shadow-2xl shadow-purple-500/50'>
-                            <div className='flex items-center justify-between gap-5'>
-                                <img src={url + item?.sportImage} alt="sport" className="!w-12 !h-12 object-contain" />
+                {/* Bitcoin Address */}
+                <div>
+                    <label className="block mb-1 font-medium">Bitcoin Address:</label>
+                    <input
+                        type="text"
+                        name="bitcoinAddress"
+                        value={formData.bitcoinAddress}
+                        onChange={handleChange}
+                        placeholder="Enter your Bitcoin Address"
+                        className="w-full border p-3 rounded border-gray-200 focus:border-[#4c1d95] outline-none"
+                        required
+                    />
+                </div>
 
-                                <div className='flex items-center gap-2 '>
-                                    <img src="/Images/Home/loading.png" alt="" />
-                                    <p className='text-sm font-semibold text-[#4c1d95]'>
-                                        {moment(item?.predictionDeadline).format('MMM DD, YYYY')}
-                                    </p>
-                                </div>
-                            </div>
-                            <div className='my-5'>
-                                <h2 className='text-2xl font-semibold capitalize'>
-                                    {item?.firstTeamName} vs {item?.secondTeamName}
-                                </h2>
-                                <p className='font-medium mt-3'>{item?.sportTitle}</p>
-                                <span className='mt-3 inline-block text-sm bg-amber-100 p-1 rounded'>Total Prediciton:- ({item?.applyAllPredictions?.length})</span>
-                            </div>
-                            <div className='flex items-center justify-between gap-5'>
-                                <Link href={'/submit-prediction'} className='bg-gradient-to-tl max-w-64 justify-center from-[#4c1d95] to-[#a878f1] cursor-pointer transition-colors text-white py-3 px-6 rounded-full flex items-center gap-2'>
-                                    Submit Prediction
-                                    <IoMdShareAlt className='text-2xl' />
-                                </Link>
-                                <button
-                                    onClick={() => handleOpenModal(item)}
-                                    className='border-[#4c1d95] border-2 bg-purple-200 cursor-pointer py-2 px-4 rounded-full'>
-                                    Details
-                                </button>
-                            </div>
-                        </div>
-                    ))
-                }
-            </div>
-
-            {/* Modal for Details */}
-            <Modal
-                open={isModalOpen}
-                onCancel={handleCloseModal}
-                footer={null}
-                width={700}
-                centered
-            >
-                {selectedMatch && (
-                    <div className='p-5'>
-                        <div className='flex items-center justify-between gap-5'>
-                            <img src={url + selectedMatch?.sportImage} alt="" className="w-16 h-16 object-contain" />
-                            <div className='flex items-center gap-2'>
-                                <img src="/Images/Home/loading.png" alt="" />
-                                <p className='text-sm font-semibold text-[#4c1d95]'>
-                                    {moment(selectedMatch?.predictionDeadline).format('DD MMM, YYYY')}
-                                </p>
-                            </div>
-                        </div>
-                        <div className='my-5'>
-                            <h2 className='text-2xl font-semibold'>
-                                {selectedMatch?.firstTeamName} vs {selectedMatch?.secondTeamName}
-                            </h2>
-                            <h3 className='text-lg font-semibold my-3'>{selectedMatch?.sportTitle}</h3>
-                            <p className='font-medium'>{selectedMatch?.sportDescription}</p>
-                        </div>
-                        <div>
-                            <p>
-                                Prediction closes on{" "}
-                                <span className="font-semibold text-[#4c1d95]">
-                                    {moment(selectedMatch?.predictionDeadline).format('MMMM Do YYYY, h:mm A')}
-                                </span>
-                            </p>
-                        </div>
-                        <div className='flex items-center mt-5 justify-between'>
-                            <Link href={'/submit-prediction'} className='bg-gradient-to-tl from-[#4c1d95] to-[#a878f1] cursor-pointer transition-colors !text-white py-3 px-6 rounded-full flex items-center gap-2'>
-                                Submit Prediction
-                                <IoMdShareAlt className='text-2xl' />
-                            </Link>
-                        </div>
+                <div className="grid lg:grid-cols-2 grid-cols-1 gap-5">
+                    {/* Casino Username */}
+                    <div>
+                        <label className="block mb-1 font-medium">Casino Username:</label>
+                        <input
+                            type="text"
+                            name="casinoUsername"
+                            value={formData.casinoUsername}
+                            onChange={handleChange}
+                            placeholder="Enter your Casino Username"
+                            className="w-full border p-3 rounded border-gray-200 focus:border-[#4c1d95] outline-none"
+                            required
+                        />
                     </div>
-                )}
-            </Modal>
+
+                    {/* Email */}
+                    <div>
+                        <label className="block mb-1 font-medium">Email (optional):</label>
+                        <input
+                            type="email"
+                            name="email"
+                            value={formData.email}
+                            onChange={handleChange}
+                            placeholder="Enter your Email"
+                            className="w-full border p-3 rounded border-gray-200 focus:border-[#4c1d95] outline-none"
+                        />
+                    </div>
+                </div>
+
+                {/* Prediction Time */}
+                <div>
+                    <label className="block mb-1 font-medium">Prediction Time:</label>
+                    <input
+                        type="text"
+                        name="predictionTime"
+                        value={formData.predictionTime}
+                        onChange={handleChange}
+                        placeholder="Enter Prediction Time (e.g. 10 AM)"
+                        className="w-full border p-3 rounded border-gray-200 focus:border-[#4c1d95] outline-none"
+                        required
+                    />
+                </div>
+
+                {/* Prediction Side 1 */}
+                <div>
+                    <label className="block mb-1 font-medium">Prediction Side 1:</label>
+                    <input
+                        type="text"
+                        name="predictionSide1"
+                        value={formData.predictionSide1}
+                        onChange={handleChange}
+                        placeholder="Enter Prediction Side 1"
+                        className="w-full border p-3 rounded border-gray-200 focus:border-[#4c1d95] outline-none"
+                        required
+                    />
+                </div>
+
+                {/* Prediction Side 2 */}
+                <div>
+                    <label className="block mb-1 font-medium">Prediction Side 2:</label>
+                    <input
+                        type="text"
+                        name="predictionSide2"
+                        value={formData.predictionSide2}
+                        onChange={handleChange}
+                        placeholder="Enter Prediction Side 2"
+                        className="w-full border p-3 rounded border-gray-200 focus:border-[#4c1d95] outline-none"
+                        required
+                    />
+                </div>
+
+                <button
+                    type="submit"
+                    disabled={submitting}
+                    className={`px-6 py-3 rounded-full font-semibold text-white transition duration-200 ${submitting
+                        ? 'bg-gray-400 cursor-not-allowed'
+                        : 'bg-gradient-to-tl from-[#4c1d95] to-[#a878f1] cursor-pointer'
+                        }`}
+                >
+                    {submitting ? 'Submitting...' : 'Submit Prediction'}
+                </button>
+            </form>
         </div>
     );
 };
