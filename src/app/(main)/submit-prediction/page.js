@@ -91,13 +91,13 @@ const Page = () => {
     if (isLoading) return <p className="text-center py-10">Loading contests...</p>;
 
     return (
-        <div className="px-4 md:px-0 contiainer py-10">
+        <div className="px-4 md:px-0 contiainer py-5">
             <ToastContainer />
             <h2 className="text-sm text-gray-600 my-10 font-semibold p-2">
                 <span className="text-blue-600">Home</span> &gt; Submit Prediction
             </h2>
 
-            <form onSubmit={handleSubmit} className="space-y-4 p-5 bg-gray-50 rounded-2xl my-10">
+            <form onSubmit={handleSubmit} className="space-y-4 p-5 bg-gray-50 rounded-2xl my-5">
                 <h1 className="text-2xl font-bold mb-4">Submit Your Prediction</h1>
                 <hr className="border-0 h-0.5 bg-gray-400" />
 
