@@ -30,6 +30,7 @@ export const apiSlice = createApi({
     "Users",
     "Coupon",
     "About",
+    "Revirews",
     "Category",
     "Privacy",
     "Terms",

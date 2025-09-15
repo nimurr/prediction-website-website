@@ -7,12 +7,14 @@ export const pokerPredictionApi = apiSlice.injectEndpoints({
                 url: `/casino-reviews/all`,
                 method: "GET"
             }),
+            providesTags: ["Revirews"]
         }),
         getSinngleCasinoPrediction: builder.query({
             query: (id) => ({
                 url: `/casino-reviews/single/${id}`,
                 method: "GET"
             }),
+            providesTags: ["Revirews"]
         }),
         submiteReview: builder.mutation({
             query: (data) => ({
@@ -20,15 +22,18 @@ export const pokerPredictionApi = apiSlice.injectEndpoints({
                 method: "POST",
                 body: data,
             }),
+            invalidatesTags: ["Revirews"],
+
         }),
         getAllReviewOfThisPost: builder.query({
             query: (id) => ({
                 url: `/casino-reviews/all-review/${id}`,
                 method: "GET"
             }),
+            providesTags: ["Revirews"]
         }),
 
     }),
 });
 
-export const { useGetAllCasinoPredictionQuery, useGetSinngleCasinoPredictionQuery, useSubmiteReviewMutation , useGetAllReviewOfThisPostQuery } = pokerPredictionApi;
+export const { useGetAllCasinoPredictionQuery, useGetSinngleCasinoPredictionQuery, useSubmiteReviewMutation, useGetAllReviewOfThisPostQuery } = pokerPredictionApi;

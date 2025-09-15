@@ -8,6 +8,7 @@ import { Modal } from 'antd';
 import { useGetAllPricePredictionQuery } from '@/redux/features/auth/pricePrediction/pricePrediction';
 import moment from 'moment';
 import url from '@/redux/api/baseUrl';
+import { FaChevronRight } from 'react-icons/fa6';
 
 const Bonuses = () => {
     const { data, isLoading } = useGetAllPricePredictionQuery();
@@ -27,12 +28,15 @@ const Bonuses = () => {
 
     return (
         <div className='contiainer mx-auto py-10 px-4'>
+            <div className='flex items-center text-sm mb-10 font-semibold gap-3 '>
+                <h3 className=' '>Home</h3> <FaChevronRight /> <span className='text-[#4c1d95]'>Price Predictions</span>
+            </div>
             <div>
                 <div className='flex items-center gap-3 mb-5'>
                     <img src="/Images/Common/icons-title.png" alt="" />
-                    <h3 className='text-xl font-semibold text-[#4c1d95]'>Bonuses</h3>
+                    <h3 className='text-xl font-semibold text-[#4c1d95]'>Price Prediction</h3>
                 </div>
-                <h2 className='md:text-5xl text-3xl font-semibold'>Top Casino Bonuses</h2>
+                <h2 className='md:text-5xl text-3xl font-semibold'>Price Prediction Contests</h2>
             </div>
 
             {/* Loader */}

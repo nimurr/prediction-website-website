@@ -32,7 +32,7 @@ const PricePrediction = () => {
                     <img src="/Images/Common/icons-title.png" alt="" />
                     <h3 className='text-xl font-semibold text-[#4c1d95]'>Price Prediction</h3>
                 </div>
-                <h2 className='md:text-5xl text-3xl font-semibold'>Predict The Crypto</h2>
+                <h2 className='md:text-5xl text-3xl font-semibold'>Price Prediction Contests</h2>
             </div>
 
             <div className='my-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 bg-white'>

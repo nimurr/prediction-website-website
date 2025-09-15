@@ -6,6 +6,7 @@ import { HiOutlineUserGroup } from 'react-icons/hi';
 import { TbMessage2Star } from 'react-icons/tb';
 import moment from 'moment';
 import url from '@/redux/api/baseUrl';
+import { FaChevronRight } from 'react-icons/fa6';
 
 const Bonuses = () => {
     const { data, isLoading } = useGetAllCasinoPredictionQuery();
@@ -17,6 +18,9 @@ const Bonuses = () => {
 
     return (
         <div className='contiainer mx-auto py-10 px-4 '>
+            <div className='flex items-center text-sm mb-10 font-semibold gap-3 '>
+                <h3 className=' '>Home</h3> <FaChevronRight /> <span className='text-[#4c1d95]'>Casino Reviews</span>
+            </div>
             {/* Header */}
             <div>
                 <div className='flex items-center gap-3 mb-5'>

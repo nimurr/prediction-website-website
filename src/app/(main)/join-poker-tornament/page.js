@@ -6,6 +6,7 @@ import { Modal } from 'antd';
 import moment from 'moment';
 import url from '@/redux/api/baseUrl';
 import { useGetAllPokerPredictionQuery } from '@/redux/features/auth/pokerPrediction/pokerPrediction';
+import { FaChevronRight } from 'react-icons/fa6';
 const Poker = () => {
     const { data } = useGetAllPokerPredictionQuery();
 
@@ -28,6 +29,9 @@ const Poker = () => {
 
     return (
         <div className='contiainer mx-auto py-10 px-4'>
+            <div className='flex items-center text-sm mb-10 font-semibold gap-3 '>
+                <h3 className=' '>Home</h3> <FaChevronRight /> <span className='text-[#4c1d95]'>Poker Predictions</span>
+            </div>
             <div>
                 <div className='flex items-center gap-3 mb-5'>
                     <img src="/Images/Common/icons-title.png" alt="" />
@@ -54,7 +58,7 @@ const Poker = () => {
                             <p className='font-semibold my-2'>Buy In : <span className='font-medium text-gray-500'>${item?.buyIn}</span></p>
                             <p className='font-semibold my-2'>Time : <span className='font-medium text-gray-500'>{item?.time}</span></p>
                             <p className='font-semibold my-2'>Rewards : <span className='font-medium text-gray-500'>{item?.rewards}</span></p>
-                                <span className='mt-3 inline-block text-sm bg-amber-100 p-1 rounded'>Total Prediciton:- ({item?.applyPokerTournamentUsers?.length})</span>
+                            <span className='mt-3 inline-block text-sm bg-amber-100 p-1 rounded'>Total Prediciton:- ({item?.applyPokerTournamentUsers?.length})</span>
                         </div>
 
                         <div className='flex items-center justify-between gap-2'>
