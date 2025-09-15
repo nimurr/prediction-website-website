@@ -179,46 +179,48 @@ const Page = () => {
 
                 {/* Prediction Time */}
                 <div>
-                    <label className="block mb-1 font-medium">Prediction Time:</label>
+                    <label className="block mb-1 font-medium">Score Time:</label>
                     <input
                         type="text"
                         name="predictionTime"
                         value={formData.predictionTime}
                         onChange={handleChange}
-                        placeholder="Enter Prediction Time (e.g. 10 AM)"
+                        placeholder="Enter time (in minutes)"
                         className="w-full border p-3 rounded border-gray-200 focus:border-[#4c1d95] outline-none"
                         required
                     />
                 </div>
 
                 {/* Prediction Side 1 */}
-                <div>
-                    <label className="block mb-1 font-medium">Prediction Side 1:</label>
-                    <input
-                        type="text"
-                        name="predictionSide1"
-                        value={formData.predictionSide1}
-                        onChange={handleChange}
-                        placeholder="Enter Prediction Side 1"
-                        className="w-full border p-3 rounded border-gray-200 focus:border-[#4c1d95] outline-none"
-                        required
-                    />
-                </div>
+                <div className='grid lg:grid-cols-2 gap-5'>
+                    <div>
+                        <label className="block mb-1 font-medium">Prediction Side 1:</label>
+                        <input
+                            type="text"
+                            name="predictionSide1"
+                            value={formData.predictionSide1}
+                            onChange={handleChange}
+                            placeholder="Enter Prediction Side 1"
+                            className="w-full border p-3 rounded border-gray-200 focus:border-[#4c1d95] outline-none"
+                            required
+                        />
+                    </div>
 
-                {/* Prediction Side 2 */}
-                <div>
-                    <label className="block mb-1 font-medium">Prediction Side 2:</label>
-                    <input
-                        type="text"
-                        name="predictionSide2"
-                        value={formData.predictionSide2}
-                        onChange={handleChange}
-                        placeholder="Enter Prediction Side 2"
-                        className="w-full border p-3 rounded border-gray-200 focus:border-[#4c1d95] outline-none"
-                        required
-                    />
-                </div>
+                    {/* Prediction Side 2 */}
+                    <div>
+                        <label className="block mb-1 font-medium">Prediction Side 2:</label>
+                        <input
+                            type="text"
+                            name="predictionSide2"
+                            value={formData.predictionSide2}
+                            onChange={handleChange}
+                            placeholder="Enter Prediction Side 2"
+                            className="w-full border p-3 rounded border-gray-200 focus:border-[#4c1d95] outline-none"
+                            required
+                        />
+                    </div>
 
+                </div>
                 <button
                     type="submit"
                     disabled={submitting}
