@@ -55,6 +55,10 @@ const Page = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        if (!profile) {
+            toast.error('User not logged in. Please wait.');
+            return;
+        }
 
 
         // if (!formData.userId || !formData.predictionId) {
@@ -192,9 +196,9 @@ const Page = () => {
                 </div>
 
                 {/* Prediction Side 1 */}
-                <div className='grid lg:grid-cols-2 gap-5'>
-                    <div>
-                        <label className="block mb-1 font-medium">Prediction Side 1:</label>
+                <div className='flex items-center gap-5 flex-wrap'>
+                    <div className='max-w-48'>
+                        <label className="block mb-1 font-medium">Team A:</label>
                         <input
                             type="text"
                             name="predictionSide1"
@@ -207,8 +211,8 @@ const Page = () => {
                     </div>
 
                     {/* Prediction Side 2 */}
-                    <div>
-                        <label className="block mb-1 font-medium">Prediction Side 2:</label>
+                    <div className='max-w-48'>
+                        <label className="block mb-1 font-medium">Team A:</label>
                         <input
                             type="text"
                             name="predictionSide2"
