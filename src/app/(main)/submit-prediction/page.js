@@ -25,6 +25,7 @@ const Page = () => {
         predictionTime: '',
         predictionSide1: '',
         predictionSide2: '',
+        screenShortUrl: '',
         status: 'submitted',
     });
 
@@ -85,6 +86,7 @@ const Page = () => {
                     predictionTime: '',
                     predictionSide1: '',
                     predictionSide2: '',
+                    screenShortUrl: '',
                 }));
             }
         } catch (error) {
@@ -197,34 +199,49 @@ const Page = () => {
 
                 {/* Prediction Side 1 */}
                 <div className='flex items-center gap-5 flex-wrap'>
-                    <div className='max-w-48'>
-                        <label className="block mb-1 font-medium">Team A:</label>
+                    <div className='max-w-72 min-w-72'>
+                        <label className="block mb-1 font-medium">Team A Yellow Card :</label>
                         <input
                             type="text"
                             name="predictionSide1"
                             value={formData.predictionSide1}
                             onChange={handleChange}
-                            placeholder="Enter Score"
+                            placeholder="Enter Yellow Card Amount"
                             className="w-full border p-3 rounded border-gray-200 focus:border-[#4c1d95] outline-none"
                             required
                         />
                     </div>
 
                     {/* Prediction Side 2 */}
-                    <div className='max-w-48'>
-                        <label className="block mb-1 font-medium">Team B:</label>
+                    <div className='max-w-72 min-w-72'>
+                        <label className="block mb-1 font-medium">Team B Yellow Card:</label>
                         <input
                             type="text"
                             name="predictionSide2"
                             value={formData.predictionSide2}
                             onChange={handleChange}
-                            placeholder="Enter Score"
+                            placeholder="Enter Yellow Card Amount"
                             className="w-full border p-3 rounded border-gray-200 focus:border-[#4c1d95] outline-none"
                             required
                         />
                     </div>
 
                 </div>
+
+                {/* Prediction Side 2 */}
+                <div className=''>
+                    <label className="block mb-1 font-medium">Screenshot of your bet (use hostmeme.com):</label>
+                    <input
+                        type="text"
+                        name="screenShortUrl"
+                        value={formData.screenShortUrl}
+                        onChange={handleChange}
+                        placeholder="Enter Screenshot Link"
+                        className="w-full border p-3 rounded border-gray-200 focus:border-[#4c1d95] outline-none"
+                        required
+                    />
+                </div>
+
                 <button
                     type="submit"
                     disabled={submitting}
