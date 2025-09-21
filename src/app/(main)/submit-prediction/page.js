@@ -21,10 +21,10 @@ const Page = () => {
         bitcointalkUsername: '',
         bitcoinAddress: '',
         casinoUsername: '',
+        BetID: '',
         email: '',
         predictionTime: '',
-        predictionSide1: '',
-        predictionSide2: '',
+        totalYellowCard: '',
         screenShortUrl: '',
         status: 'submitted',
     });
@@ -56,6 +56,10 @@ const Page = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+
+        const payload = { ...formData };
+        console.log('Submitting payload:', payload);
+        
         if (!profile) {
             toast.error('User not logged in. Please wait.');
             return;
@@ -68,8 +72,6 @@ const Page = () => {
         // }
 
         try {
-            const payload = { ...formData };
-            console.log('Submitting payload:', payload);
 
             const result = await submitPrediction(payload).unwrap();
 
@@ -82,10 +84,10 @@ const Page = () => {
                     bitcointalkUsername: '',
                     bitcoinAddress: '',
                     casinoUsername: '',
+                    BetID: '',
                     email: '',
                     predictionTime: '',
-                    predictionSide1: '',
-                    predictionSide2: '',
+                    totalYellowCard: '',
                     screenShortUrl: '',
                 }));
             }
@@ -171,6 +173,17 @@ const Page = () => {
 
                     {/* Email */}
                     <div>
+                        <label className="block mb-1 font-medium">Bet ID (If Required):</label>
+                        <input
+                            type="text"
+                            name="BetID"
+                            value={formData.BetID}
+                            onChange={handleChange}
+                            placeholder="Enter your Bet ID"
+                            className="w-full border p-3 rounded border-gray-200 focus:border-[#4c1d95] outline-none"
+                        />
+                    </div>
+                    <div>
                         <label className="block mb-1 font-medium">Email (optional):</label>
                         <input
                             type="email"
@@ -185,7 +198,7 @@ const Page = () => {
 
                 {/* Prediction Time */}
                 <div>
-                    <label className="block mb-1 font-medium">Score Time:</label>
+                    <label className="block mb-1 font-medium">1st Goal:</label>
                     <input
                         type="text"
                         name="predictionTime"
@@ -200,11 +213,11 @@ const Page = () => {
                 {/* Prediction Side 1 */}
                 <div className='flex items-center gap-5 flex-wrap'>
                     <div className='max-w-72 min-w-72'>
-                        <label className="block mb-1 font-medium">Team A Yellow Card :</label>
+                        <label className="block mb-1 font-medium">Total Yellow Card:</label>
                         <input
                             type="text"
-                            name="predictionSide1"
-                            value={formData.predictionSide1}
+                            name="totalYellowCard"
+                            value={formData.totalYellowCard}
                             onChange={handleChange}
                             placeholder="Enter Yellow Card Amount"
                             className="w-full border p-3 rounded border-gray-200 focus:border-[#4c1d95] outline-none"
@@ -212,19 +225,7 @@ const Page = () => {
                         />
                     </div>
 
-                    {/* Prediction Side 2 */}
-                    <div className='max-w-72 min-w-72'>
-                        <label className="block mb-1 font-medium">Team B Yellow Card:</label>
-                        <input
-                            type="text"
-                            name="predictionSide2"
-                            value={formData.predictionSide2}
-                            onChange={handleChange}
-                            placeholder="Enter Yellow Card Amount"
-                            className="w-full border p-3 rounded border-gray-200 focus:border-[#4c1d95] outline-none"
-                            required
-                        />
-                    </div>
+
 
                 </div>
 
