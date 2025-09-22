@@ -17,6 +17,7 @@ const Footer = () => {
                 {/* Left: Logo */}
                 <div className="flex items-center gap-2">
                     <img src="/Images/Auth/footer-logo.png" alt="logo" className="max-w-32" />
+
                 </div>
 
                 {/* Divider - Only visible on md+ screens */}
@@ -26,6 +27,7 @@ const Footer = () => {
                 <div className="text-sm text-center text-gray-300">
                     ©2025 contesthunters.com | Managed by <span className="font-medium">Little Mouse</span>
                 </div>
+                <Link href="/terms-and-conditions" className='text-blue-600'>Terms & Condition</Link>
 
                 {/* Divider - Only visible on md+ screens */}
                 <div className="hidden md:block h-6 w-[1px] bg-gray-500" />

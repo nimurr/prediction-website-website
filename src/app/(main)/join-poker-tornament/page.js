@@ -51,6 +51,9 @@ const Poker = () => {
                                     {moment(item?.tournamentDate).format('DD MMM, YYYY')}
                                 </p>
                             </div>
+                            <div className='flex items-center gap-3'>
+                              
+                            </div>
                         </div>
 
                         <div className='my-5'>

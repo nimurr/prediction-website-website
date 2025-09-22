@@ -5,7 +5,7 @@ const updateProfile = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
         getPrivacyPolicy: builder.query({
             query: () => ({
-                url: `/info/privacy-policy`,
+                url: `/privacy-policy`,
                 method: "GET"
             }),
             providesTags: ["PrivacyPolicy"]
