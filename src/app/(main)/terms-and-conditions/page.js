@@ -40,7 +40,7 @@ const PrivacyPolicyPage = () => {
     }, [refetch]);
 
     return (
-        <section className="contiainer py-10 w-full h-full min-h-screen">
+        <section className="contiainer mx-auto py-10 px-4 w-full h-full min-h-screen">
 
             <div>
                 <h2 className=" text-3xl font-semibold mb-10">Terms & Conditions</h2>
