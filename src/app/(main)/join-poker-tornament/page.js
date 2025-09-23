@@ -60,7 +60,7 @@ const Poker = () => {
                             <h2 className='text-3xl font-semibold capitalize'>{item?.tournamentTitle}</h2>
                             <p className='font-semibold my-2'>Buy In : <span className='font-medium text-gray-500'>${item?.buyIn}</span></p>
                             {/* time is UTC formate  */}
-                            <p className='font-semibold my-2'>Time : <span className='font-medium text-gray-500'>{moment(item?.time).format('hh:mm A')}</span></p>
+                            <p className='font-semibold my-2'>Time : <span className='font-medium text-gray-500'>{moment(item?.time).format('hh:mm')}</span></p>
                             <p className='font-semibold my-2'>Rewards : <span className='font-medium text-gray-500'>{item?.rewards}</span></p>
                             <span className='mt-3 inline-block text-sm bg-amber-100 p-1 rounded'>Total Prediciton:- ({item?.applyPokerTournamentUsers?.length})</span>
                         </div>
