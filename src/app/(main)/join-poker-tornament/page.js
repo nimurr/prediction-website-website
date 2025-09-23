@@ -51,9 +51,9 @@ const Poker = () => {
                                     {moment(item?.tournamentDate).format('DD MMM, YYYY')}
                                 </p>
                             </div>
-                            <div className='flex items-center gap-3'>
+                            {/* <div className='flex items-center gap-3'>
                                 <Link target='_blank' className='text-sm text-[#4d1d95] font-semibold bg-[#4d1d952c] py-1 px-3 rounded-full' href={`${item?.sponsorLink}`}>{item?.sponsorName || "N/A"}</Link>
-                            </div>
+                            </div> */}
                         </div>
 
                         <div className='my-5'>
@@ -65,7 +65,10 @@ const Poker = () => {
                         </div>
 
                         <div className='flex items-center justify-between gap-2'>
-                            <button className='bg-[#4c1d95] text-white py-3 px-3 rounded-full text-sm'>Join 1Win</button>
+                            <Link href={item?.joinLink} className='bg-[#4c1d95] cursor-pointer text-white py-3 px-5 rounded-full'>
+                                {item?.sponsor || "Join 1Win"}
+                            </Link>
+
                             <Link href={'/join-poker-tornament-form'} className='bg-gradient-to-tl from-[#4c1d95] to-[#a878f1] transition-colors text-white py-3 px-3 rounded-full flex items-center justify-center text-sm gap-2'>
                                 Join Tournament
                                 <IoMdShareAlt className='text-2xl' />
