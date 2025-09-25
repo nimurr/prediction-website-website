@@ -32,7 +32,7 @@ const Poker = () => {
                     <img src="/Images/Common/icons-title.png" alt="" />
                     <h3 className='text-xl font-semibold text-[#4c1d95]'>Poker Tournament</h3>
                 </div>
-                <h2 className='md:text-5xl text-3xl font-semibold'>Poker Prediction</h2>
+                <h2 className='md:text-5xl text-3xl font-semibold'>Poker Tournament</h2>
             </div>
 
             {/* Tournament Cards */}
