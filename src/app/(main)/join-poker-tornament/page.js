@@ -30,14 +30,15 @@ const Poker = () => {
     return (
         <div className='contiainer mx-auto py-10 px-4'>
             <div className='flex items-center text-sm mb-10 font-semibold gap-3 '>
-                <h3 className=' '>Home</h3> <FaChevronRight /> <span className='text-[#4c1d95]'>Poker Predictions</span>
+                <h3 className=' '>Home</h3> <FaChevronRight /> <span className='text-[#4c1d95]'>Poker Tournament</span>
             </div>
             <div>
                 <div className='flex items-center gap-3 mb-5'>
                     <img src="/Images/Common/icons-title.png" alt="" />
-                    <h3 className='text-xl font-semibold text-[#4c1d95]'>Predictions</h3>
+                    <h3 className='text-xl font-semibold text-[#4c1d95]'>Poker Tournament</h3>
                 </div>
-                <h2 className='md:text-5xl text-3xl font-semibold'>Featured Contests</h2>
+                <h2 className='md:text-5xl text-3xl font-semibold'>Poker Tournament
+                </h2>
             </div>
 
             <div className='my-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 bg-white'>

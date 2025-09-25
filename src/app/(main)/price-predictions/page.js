@@ -63,7 +63,7 @@ const Bonuses = () => {
                                     </p>
                                 </div>
                                 <div className='flex items-center gap-3'>
-                                    <Link target='_blank' className='text-sm text-[#4d1d95] font-semibold bg-[#4d1d952c] py-1 px-3 rounded-full' href={`${item?.sponsorLink}`}>{item?.sponsorName || "N/A"}</Link>
+                                      <Link target='_blank' className='text-sm text-[#fff] font-semibold bg-[#4d1d95] py-1 px-3 rounded' href={`${item?.sponsorLink}`}>{item?.sponsorName || "N/A"}</Link>
                                 </div>
                             </div>
 
