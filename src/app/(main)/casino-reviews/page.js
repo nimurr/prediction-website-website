@@ -25,9 +25,9 @@ const Bonuses = () => {
             <div>
                 <div className='flex items-center gap-3 mb-5'>
                     <img src="/Images/Common/icons-title.png" alt="" />
-                    <h3 className='text-xl font-semibold text-[#4c1d95]'>Bonuses</h3>
+                    <h3 className='text-xl font-semibold text-[#4c1d95]'>Reviews</h3>
                 </div>
-                <h2 className='md:text-5xl text-3xl font-semibold'>Top Casino Bonuses</h2>
+                <h2 className='md:text-5xl text-3xl font-semibold'>Top Casino Reviews</h2>
             </div>
 
             {/* Cards */}

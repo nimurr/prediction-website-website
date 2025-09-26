@@ -99,8 +99,8 @@ const MyPredictions = () => {
         <table className="min-w-full border-separate border-spacing-y-2">
           <thead>
             <tr className="bg-[#e9ddfa] text-[#4c1d95] text-left text-sm rounded-t-xl">
-              <th className="py-3 px-4 rounded-tl-xl">Where I predicted</th>
-              <th className="py-3 px-4">My Predicted</th>
+              <th className="py-3 px-4 rounded-tl-xl">Contest</th>
+              <th className="py-3 px-4">My Prediction</th>
               <th className="py-3 px-4">Date</th>
               <th className="py-3 px-4 rounded-tr-xl">Status</th>
             </tr>
