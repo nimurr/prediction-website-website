@@ -39,7 +39,7 @@ const Page = () => {
                     <img src="/Images/Common/icons-title.png" alt="" />
                     <h3 className='text-xl font-semibold text-[#4c1d95]'>Predictions</h3>
                 </div>
-                <h2 className='md:text-5xl text-3xl font-semibold'>Featured Contests</h2>
+                <h2 className='md:text-5xl text-3xl font-semibold'>Predict Score And Win Free Crypto</h2>
             </div>
 
             {/* Loader */}

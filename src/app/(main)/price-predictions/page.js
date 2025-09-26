@@ -36,7 +36,7 @@ const Bonuses = () => {
                     <img src="/Images/Common/icons-title.png" alt="" />
                     <h3 className='text-xl font-semibold text-[#4c1d95]'>Price Prediction</h3>
                 </div>
-                <h2 className='md:text-5xl text-3xl font-semibold'>Price Prediction Contests</h2>
+                <h2 className='md:text-5xl text-3xl font-semibold'>Predict Bitcoin Price And Win Free Crypto</h2>
             </div>
 
             {/* Loader */}

@@ -35,7 +35,7 @@ const Predictions = () => {
                     <img src="/Images/Common/icons-title.png" alt="" />
                     <h3 className='text-xl font-semibold text-[#4c1d95]'>Score Predictions</h3>
                 </div>
-                <h2 className='md:text-5xl text-3xl font-semibold'>Predict Your Score</h2>
+                <h2 className='md:text-5xl text-3xl font-semibold'>Predict Score And Win Free Crypto </h2>
             </div>
 
             {
