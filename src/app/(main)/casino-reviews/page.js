@@ -13,7 +13,7 @@ const Bonuses = () => {
     const fullData = data?.data;
 
     if (isLoading) {
-        return <p className=" py-10">Loading bonuses...</p>;
+        return <p className=" py-10 contiainer">Loading bonuses...</p>;
     }
 
     return (
