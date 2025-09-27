@@ -62,10 +62,10 @@ const Header = () => {
                             {
                                 subItemOpen &&
                                 <div className='absolute buttom-0 right-0 bg-gray-100  rounded-lg overflow-hidden min-w-48'>
-                                    <Link className='py-2 hover:bg-blue-50 p-5 block' href="/profile/info">
+                                    <Link onClick={() => setSubItemOpen(!subItemOpen)} className='py-2 hover:bg-blue-50 p-5 block' href="/profile/info">
                                         Profile
                                     </Link>
-                                    <Link className='py-2 hover:bg-blue-50 p-5 block' href="/profile/my-predictions">
+                                    <Link onClick={() => setSubItemOpen(!subItemOpen)} className='py-2 hover:bg-blue-50 p-5 block' href="/profile/my-predictions">
                                         My Predictions
                                     </Link>
                                 </div>
