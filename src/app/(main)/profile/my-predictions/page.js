@@ -5,8 +5,8 @@ import url from '@/redux/api/baseUrl';
 
 const MyPredictions = () => {
   const [userId, setUserId] = useState(null);
+  const [filterType, setFilterType] = useState("score_prediction"); // ✅ default is score
 
-  // ✅ localStorage safe access
   useEffect(() => {
     try {
       const user = localStorage.getItem('user');
@@ -19,9 +19,8 @@ const MyPredictions = () => {
     }
   }, []);
 
-  // fetch predictions only if userId is available
   const { data, isLoading } = useMyAllPredictionQuery(userId, {
-    skip: !userId, // ✅ prevent query without userId
+    skip: !userId,
   });
 
   if (!userId) {
@@ -32,25 +31,27 @@ const MyPredictions = () => {
     return <p className="text-center py-10">Loading predictions...</p>;
   }
 
-  // Extract predictions
   const scorePredictions = data?.data?.attributes?.scorePredictions || [];
   const pricePredictions = data?.data?.attributes?.predictions || [];
   const pokerPredictions = data?.data?.attributes?.pokerPrediction || [];
 
-  // Merge all predictions
+  console.log(pokerPredictions);
+
   const allPredictions = [
     ...scorePredictions.map(p => ({
-      title: `Score: ${p.selectTeam}`,
-      side: p.predictionSide,
+      type: "score_prediction",
+      title: ` ${p.predictionId?.firstTeamName + " vs " + p.predictionId?.secondTeamName}`,
+      side: p.totalYellowCard,
       date: new Date(p.createdAt).toLocaleDateString(),
       status: p.isWinner
         ? 'Winner'
         : p.status === 'submitted'
-        ? 'Pending'
-        : 'Lossed',
+          ? 'Pending'
+          : 'Lossed',
       icon: p.predictionId?.sportImage && url + p.predictionId.sportImage,
     })),
     ...pricePredictions.map(p => ({
+      type: "price_prediction",
       title: `Price Prediction`,
       side: `$${p.predictedPrice}`,
       date: new Date(p.createdAt).toLocaleDateString(),
@@ -60,8 +61,9 @@ const MyPredictions = () => {
         url + p.pricePredictionId.bitcoinImage,
     })),
     ...pokerPredictions.map(p => ({
+      type: "poker_prediction",
       title: `Poker Tournament`,
-      side: p.pokernowUsername,
+      side: p.screenshotLink,
       date: new Date(p.createdAt).toLocaleDateString(),
       status: p.isWinner ? 'Winner' : 'Pending',
       icon:
@@ -69,6 +71,10 @@ const MyPredictions = () => {
         url + p.pokertournamentId.uploadPokerTournamentImage,
     })),
   ];
+
+  const filteredPredictions = allPredictions.filter(
+    p => p.type === filterType
+  );
 
   const getStatusClass = status => {
     switch (status.toLowerCase()) {
@@ -84,17 +90,26 @@ const MyPredictions = () => {
   };
 
   return (
-    <div className="px-4 md:px-0 contiainer py-10">
-      {/* Breadcrumb */}
+    <div className="px-4 xl:px-0 contiainer py-10">
       <div className="flex mb-5 items-center justify-between">
         <div className="text-sm mb-5 text-gray-500">
           <span className="text-[#4c1d95] font-semibold cursor-pointer">Home</span>
           <span className="mx-1">›</span>
           <span>My Predictions</span>
         </div>
+        <div>
+          <select
+            className="border p-2 border-gray-200"
+            onChange={(e) => setFilterType(e.target.value)}
+            value={filterType}
+          >
+            <option value="score_prediction">Score Prediction</option>
+            <option value="price_prediction">Price Prediction</option>
+            <option value="poker_prediction">Poker Tournament</option>
+          </select>
+        </div>
       </div>
 
-      {/* Table */}
       <div className="overflow-x-auto bg-white rounded-xl shadow">
         <table className="min-w-full border-separate border-spacing-y-2">
           <thead>
@@ -106,21 +121,29 @@ const MyPredictions = () => {
             </tr>
           </thead>
           <tbody>
-            {allPredictions?.map((item, index) => (
-              <tr key={index} className="bg-white rounded-lg shadow-sm">
-                <td className="py-4 px-4 flex items-center gap-3">
-                  <img src={item?.icon} alt="icon" className="w-8 h-8" />
-                  <span className="text-sm">{item.title}</span>
-                </td>
-                <td className="py-4 px-4 text-sm">{item.side}</td>
-                <td className="py-4 px-4 text-sm">{item.date}</td>
-                <td className="py-4 px-4 text-sm">
-                  <span className={getStatusClass(item.status)}>
-                    {item.status}
-                  </span>
+            {filteredPredictions.length > 0 ? (
+              filteredPredictions.map((item, index) => (
+                <tr key={index} className="bg-white rounded-lg shadow-sm">
+                  <td className="py-4 px-4 flex items-center gap-3">
+                    <img src={item?.icon} alt="icon" className="w-8 h-8" />
+                    <span className="text-sm">{item.title}</span>
+                  </td>
+                  <td className="py-4 px-4 text-sm">{item.side}</td>
+                  <td className="py-4 px-4 text-sm">{item.date}</td>
+                  <td className="py-4 px-4 text-sm">
+                    <span className={getStatusClass(item.status)}>
+                      {item.status}
+                    </span>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="4" className="text-center py-6">
+                  No {filterType.replace('_', ' ')} found.
                 </td>
               </tr>
-            ))}
+            )}
           </tbody>
         </table>
       </div>
