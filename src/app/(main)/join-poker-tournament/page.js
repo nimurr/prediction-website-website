@@ -62,7 +62,11 @@ const Poker = () => {
                             <p className='font-semibold my-2'>Buy In : <span className='font-medium text-gray-500'>${item?.buyIn}</span></p>
                             {/* time is UTC formate  */}
                             <p className='font-semibold my-2'>Time : <span className='font-medium text-gray-500'>{moment(item?.time).format('hh:mm')}</span></p>
-                            <p className='font-semibold my-2'>Rewards : <span className='font-medium text-gray-500'>{item?.rewards}</span></p>
+                            <p className='font-semibold my-2'>Rewards : <span className='font-medium text-gray-500'>${item?.rewards}</span></p>
+                            <p>
+                                Join the <span className="font-semibold text-[#4c1d95]">{item?.pokerTournamentTitle}</span>!
+                                Buy-in is <span className="font-semibold">${item?.buyIn}</span> for a chance to win <span className="font-semibold">${item?.rewards}</span>.
+                            </p>
                             <span className='mt-3 inline-block text-sm bg-amber-100 p-1 rounded'>Total Prediciton:- ({item?.applyPokerTournamentUsers?.length})</span>
                         </div>
 
