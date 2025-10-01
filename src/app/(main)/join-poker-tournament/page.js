@@ -63,8 +63,8 @@ const Poker = () => {
                             {/* time is UTC formate  */}
                             <p className='font-semibold my-2'>Time : <span className='font-medium text-gray-500'>{moment(item?.time).format('hh:mm')}</span></p>
                             <p className='font-semibold my-2'>Rewards : <span className='font-medium text-gray-500'>${item?.rewards}</span></p>
-                            <p>
-                                All Winer will get Total <span className='font-semibold text-[#4c1d95]'>${item?.rewards} Rewards. </span>Join Poker Tournament and Win Rewards .
+                            <p className='capitalize my-3'>
+                                {item?.details?.slice(0, 100) }
                             </p>
                             <span className='mt-3 inline-block text-sm bg-amber-100 p-1 rounded'>Total Prediciton:- ({item?.applyPokerTournamentUsers?.length})</span>
                         </div>
@@ -142,16 +142,8 @@ const Poker = () => {
                         </div>
 
                         <div>
-                            <p>
-                                Join the <span className="font-semibold text-[#4c1d95]">{selected?.pokerTournamentTitle}</span>!
-                                Buy-in is <span className="font-semibold">${selected?.buyIn}</span> for a chance to win <span className="font-semibold">${selected?.rewards}</span>.
-                            </p>
-                            <br />
-                            <p>
-                                Tournament starts on{" "}
-                                <span className="font-semibold">
-                                    {moment(selected?.time).format('MMMM Do YYYY, h:mm A')}
-                                </span>. Secure your seat early and join the action!
+                            <p className='capitalize my-3'>
+                                {selected?.details}
                             </p>
                         </div>
 
