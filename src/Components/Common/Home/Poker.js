@@ -73,8 +73,8 @@ const Poker = () => {
                             <p className='font-semibold my-2'>
                                 Rewards: <span className='font-medium text-gray-500'>${item?.rewards}</span>
                             </p>
-                             <p>
-                                All Players Will Get <span className='font-semibold text-[#4c1d95]'>${item?.rewards} . </span>Join Poker Tournament and Win Rewards .
+                            <p className='capitalize my-3'>
+                                {item?.details?.slice(0, 100)}
                             </p>
                             <span className='mt-3 inline-block text-sm bg-amber-100 p-1 rounded'>Total Prediciton:- ({item?.applyPokerTournamentUsers?.length})</span>
                         </div>
@@ -161,16 +161,8 @@ const Poker = () => {
                         </div>
 
                         <div>
-                            <p>
-                                Join the <span className="font-semibold text-[#4c1d95]">{fullData[selectedTournament]?.pokerTournamentTitle}</span>!
-                                Buy-in is <span className="font-semibold">${fullData[selectedTournament]?.buyIn}</span> for a chance to win <span className="font-semibold">${fullData[selectedTournament]?.rewards}</span>.
-                            </p>
-                            <br />
-                            <p>
-                                Tournament starts on{" "}
-                                <span className="font-semibold">
-                                    {moment(fullData[selectedTournament]?.time).format('MMMM Do YYYY, h:mm A')}
-                                </span>. Secure your seat early and join the action!
+                            <p className='capitalize my-3'>
+                                {fullData[selectedTournament]?.details}
                             </p>
                         </div>
 
